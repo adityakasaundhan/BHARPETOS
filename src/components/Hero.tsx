@@ -60,7 +60,7 @@ export default function Hero() {
 
           <motion.div variants={item} className="overflow-hidden">
             <h1 className="text-[12vw] lg:text-[110px] leading-[0.82] text-brand-primary">
-              NOT CHAOS.
+              NOT अफरातफरी CONFUSION.
             </h1>
           </motion.div>
         </div>

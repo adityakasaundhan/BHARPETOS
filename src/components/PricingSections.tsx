@@ -28,10 +28,13 @@ export function CategoryDivider({ text }: { text: string }) {
 
 export function HinglishMarquee() {
   const taglines = [
-    "Restaurant chalana ab tension-free.",
-    "Har order pe zyada profit.",
-    "Business badhao, tension ghatao.",
-    "Har Inventory ka poora control."
+    "कमाई का हिसाब अब उंगलियों पर।",
+    "जहाँ BharpetOS, वहाँ काम टेंशनलेस।",
+    "रेस्टोरेंट चलेगा तेज़, मुनाफा दिखेगा साफ़।",
+    "अब अंदाज़े नहीं, पक्का हिसाब।",
+    "हर टेबल का लेखा-जोखा, एक ही जगह।",
+    "जो दिखेगा, वही सुधरेगा।",
+    "बिलिंग तेज़, मैनेजमेंट आसान।"
   ];
 
   return (
@@ -95,6 +98,7 @@ export function Pricing() {
             <motion.button
               whileHover={{ translate: "4px 4px", boxShadow: "none" }}
               whileTap={{ scale: 0.98 }}
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
               className="mt-12 bg-brand-text text-white text-3xl font-black px-12 py-8 w-full md:w-auto uppercase tracking-tighter shadow-[8px_8px_0px_#DB4A2B] transition-all"
             >
               Secure License Now

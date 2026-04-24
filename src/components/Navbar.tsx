@@ -47,6 +47,7 @@ export default function Navbar() {
         <motion.button
           whileHover={{ scale: 1.05, y: -2 }}
           whileTap={{ scale: 0.98 }}
+          onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
           className="bg-brand-text text-white px-6 py-2.5 rounded-none font-bold text-xs uppercase tracking-widest border-r-4 border-b-4 border-brand-primary/30 hover:bg-brand-primary transition-all"
         >
           GET CONTROL

@@ -1,5 +1,6 @@
+import React, { useState } from "react";
 import { motion, useScroll, useSpring } from "motion/react";
-import { Users, Zap, CreditCard, ChevronRight } from "lucide-react";
+import { Users, Zap, CreditCard, ChevronRight, CheckCircle2 } from "lucide-react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Features from "./components/Features";
@@ -19,6 +20,37 @@ export default function App() {
     damping: 30,
     restDelta: 0.001
   });
+
+  const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success">("idle");
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    service: "Select Service",
+    message: ""
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formStatus !== "idle") return;
+    
+    setFormStatus("submitting");
+    
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    setFormStatus("success");
+    
+    // Reset after some time
+    setTimeout(() => {
+      setFormStatus("idle");
+      setFormData({ name: "", phone: "", service: "Select Service", message: "" });
+    }, 4000);
+  };
 
   return (
     <div className="relative selection:bg-brand-primary selection:text-white overflow-x-hidden">
@@ -56,7 +88,7 @@ export default function App() {
         
         <SystemShowcase />
         
-        <section className="py-32 bg-brand-bg text-brand-text relative overflow-hidden">
+        <section id="contact" className="py-32 bg-brand-bg text-brand-text relative overflow-hidden scroll-mt-20">
           {/* 7 Day Free Trial Badge */}
           <motion.div 
             initial={{ rotate: -12, scale: 0 }}
@@ -136,46 +168,102 @@ export default function App() {
               >
                 <h3 className="text-4xl font-black uppercase tracking-tighter italic mb-10">Send a Message</h3>
                 
-                <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase opacity-40 tracking-widest">Full Name</label>
-                      <input type="text" placeholder="Name" className="w-full bg-gray-50 border-2 border-transparent focus:border-brand-primary p-4 rounded-2xl outline-none transition-all font-bold" />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase opacity-40 tracking-widest">Phone Number</label>
-                      <input type="text" placeholder="+91" className="w-full bg-gray-50 border-2 border-transparent focus:border-brand-primary p-4 rounded-2xl outline-none transition-all font-bold" />
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase opacity-40 tracking-widest">Consultation For</label>
-                    <select className="w-full bg-gray-50 border-2 border-transparent focus:border-brand-primary p-4 rounded-2xl outline-none transition-all font-bold appearance-none">
-                      <option>Select Service</option>
-                      <option>POS Billing System</option>
-                      <option>Inventory Management</option>
-                      <option>Complete Ecosystem</option>
-                      <option>General Inquiry</option>
-                    </select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase opacity-40 tracking-widest">Tell us your concern</label>
-                    <textarea rows={4} placeholder="Message..." className="w-full bg-gray-50 border-2 border-transparent focus:border-brand-primary p-4 rounded-2xl outline-none transition-all font-bold resize-none" />
-                  </div>
-
-                  <motion.button 
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full bg-brand-text text-white py-6 rounded-2xl font-black uppercase text-xs tracking-[0.2em] shadow-xl flex items-center justify-center gap-3"
+                {formStatus === "success" ? (
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="flex flex-col items-center justify-center py-20 text-center space-y-6"
                   >
-                    Send Inquiry <ChevronRight size={18} />
-                  </motion.button>
+                    <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center text-green-600">
+                      <CheckCircle2 size={48} />
+                    </div>
+                    <div>
+                      <h4 className="text-2xl font-black uppercase tracking-tight mb-2">Inquiry Sent!</h4>
+                      <p className="text-sm opacity-60 font-bold uppercase tracking-wider">Aditya will contact you shortly.</p>
+                    </div>
+                    <button 
+                      onClick={() => setFormStatus("idle")}
+                      className="text-xs font-black uppercase tracking-widest text-brand-primary underline underline-offset-4"
+                    >
+                      Send another message
+                    </button>
+                  </motion.div>
+                ) : (
+                  <form className="space-y-6" onSubmit={handleSubmit}>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase opacity-40 tracking-widest">Full Name</label>
+                        <input 
+                          type="text" 
+                          name="name"
+                          required
+                          value={formData.name}
+                          onChange={handleInputChange}
+                          placeholder="Name" 
+                          className="w-full bg-gray-50 border-2 border-transparent focus:border-brand-primary p-4 rounded-2xl outline-none transition-all font-bold" 
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase opacity-40 tracking-widest">Phone Number</label>
+                        <input 
+                          type="text" 
+                          name="phone"
+                          required
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          placeholder="+91" 
+                          className="w-full bg-gray-50 border-2 border-transparent focus:border-brand-primary p-4 rounded-2xl outline-none transition-all font-bold" 
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black uppercase opacity-40 tracking-widest">Consultation For</label>
+                      <select 
+                        name="service"
+                        value={formData.service}
+                        onChange={handleInputChange}
+                        className="w-full bg-gray-50 border-2 border-transparent focus:border-brand-primary p-4 rounded-2xl outline-none transition-all font-bold appearance-none"
+                      >
+                        <option disabled>Select Service</option>
+                        <option>POS Billing System</option>
+                        <option>Inventory Management</option>
+                        <option>Complete Ecosystem</option>
+                        <option>General Inquiry</option>
+                      </select>
+                    </div>
 
-                  <p className="text-[8px] font-bold text-center opacity-30 mt-6 uppercase tracking-widest">
-                    BY CLICKING SEND, YOU AGREE TO OUR SERVICE CONSULTATION PRINCIPLES
-                  </p>
-                </form>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black uppercase opacity-40 tracking-widest">Tell us your concern</label>
+                      <textarea 
+                        name="message"
+                        required
+                        value={formData.message}
+                        onChange={handleInputChange}
+                        rows={4} 
+                        placeholder="Message..." 
+                        className="w-full bg-gray-50 border-2 border-transparent focus:border-brand-primary p-4 rounded-2xl outline-none transition-all font-bold resize-none" 
+                      />
+                    </div>
+
+                    <motion.button 
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      disabled={formStatus === "submitting"}
+                      className={`w-full bg-brand-text text-white py-6 rounded-2xl font-black uppercase text-xs tracking-[0.2em] shadow-xl flex items-center justify-center gap-3 transition-opacity ${formStatus === "submitting" ? "opacity-50 cursor-not-allowed" : ""}`}
+                    >
+                      {formStatus === "submitting" ? (
+                        <>Processing...</>
+                      ) : (
+                        <>Send Inquiry <ChevronRight size={18} /></>
+                      )}
+                    </motion.button>
+
+                    <p className="text-[8px] font-bold text-center opacity-30 mt-6 uppercase tracking-widest">
+                      BY CLICKING SEND, YOU AGREE TO OUR SERVICE CONSULTATION PRINCIPLES
+                    </p>
+                  </form>
+                )}
               </motion.div>
 
             </div>

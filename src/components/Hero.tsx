@@ -70,6 +70,7 @@ export default function Hero() {
           className="mt-10 max-w-md"
         >
           <p className="text-lg md:text-xl font-medium leading-tight opacity-80">
+            कमाई का हिसाब अब उंगलियों पर। <br />
             The only brutalist SaaS dashboard designed to keep your kitchen running at lightspeed while you maximize every single plate of profit.
           </p>
         </motion.div>
@@ -81,6 +82,7 @@ export default function Hero() {
           <motion.button
             whileHover={{ x: 4, y: 4 }}
             whileTap={{ scale: 0.98 }}
+            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
             className="group relative bg-brand-primary text-white px-10 py-6 font-display text-xl uppercase tracking-tighter shadow-offset shadow-brand-text transition-all"
             style={{ boxShadow: '8px 8px 0px #1E1E1E' }}
           >

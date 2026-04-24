@@ -44,35 +44,47 @@ export default function BackgroundBlobs() {
         className="absolute -bottom-[20%] left-[10%] w-[50vw] h-[50vw] rounded-full bg-brand-highlight blur-[140px]"
       />
 
-      {/* Scattered Black Cutlery Texture */}
-      {[...Array(20)].map((_, i) => (
+      {/* Intelligence Grid & Scanning Line */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
+        <div className="absolute inset-0" style={{ backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', backgroundSize: '100px 100px' }} />
+        <motion.div 
+          animate={{ y: ["0%", "100%"] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+          className="absolute top-0 left-0 w-full h-[2px] bg-brand-primary/40 blur-sm"
+        />
+      </div>
+
+      {/* Floating Geometric Shards */}
+      {[...Array(8)].map((_, i) => (
         <motion.div
-          key={`cutlery-${i}`}
-          initial={{ 
-            opacity: 0,
-            x: `${Math.random() * 100}%`,
-            y: `${Math.random() * 100}%`,
-            rotate: Math.random() * 360
-          }}
+          key={`shard-${i}`}
           animate={{
-            opacity: 0.04,
-            y: [`${Math.random() * 100}%`, `${Math.random() * 100 + (i % 2 === 0 ? 5 : -5)}%`],
-            rotate: [Math.random() * 360, Math.random() * 360 + 20],
+            y: [0, -30, 0],
+            rotate: [0, 90, 180, 270, 360],
+            scale: [1, 1.2, 1],
           }}
           transition={{
-            duration: 15 + Math.random() * 20,
+            duration: 15 + i * 2,
             repeat: Infinity,
-            repeatType: "reverse",
-            ease: "easeInOut",
+            ease: "linear",
           }}
-          className="absolute text-brand-text pointer-events-none select-none z-0"
           style={{
-            fontSize: `${20 + Math.random() * 40}px`,
+            left: `${15 + (i * 12)}%`,
+            top: `${20 + (i * 8)}%`,
           }}
-        >
-          <Utensils size={24 + Math.random() * 32} strokeWidth={1} />
-        </motion.div>
+          className="absolute w-8 h-8 border border-brand-text/10 pointer-events-none"
+        />
       ))}
+
+      {/* Pulsing Energy Rings */}
+      <motion.div
+        animate={{
+          scale: [1, 1.5, 1],
+          opacity: [0.05, 0.1, 0.05],
+        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] aspect-square rounded-full border border-brand-primary/10 pointer-events-none"
+      />
 
       {/* Floating Utensils Icons (Colored) */}
       <motion.div

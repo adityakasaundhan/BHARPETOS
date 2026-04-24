@@ -41,7 +41,7 @@ export default function App() {
     setFormStatus("submitting");
     
     // Construct WhatsApp message
-    const whatsappNumber = "919000000000"; // REPLACE THIS with your actual number
+    const whatsappNumber = "919511421803"; 
     const message = `*New Inquiry for BharpetOS*%0A%0A*Name:* ${formData.name}%0A*Phone:* ${formData.phone}%0A*Service:* ${formData.service}%0A*Message:* ${formData.message}`;
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
 

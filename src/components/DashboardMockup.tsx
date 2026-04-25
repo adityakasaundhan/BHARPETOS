@@ -18,7 +18,23 @@ export default function DashboardMockup() {
                 <Activity size={24} />
               </div>
               <div>
-                <h3 className="text-2xl font-black tracking-tight">bharpetOS Intelligence</h3>
+                <h3 className="text-2xl font-black tracking-tight flex items-center gap-2">
+                  bharpetOS Intelligence 
+                  <motion.span 
+                    animate={{ 
+                      y: [0, -4, 0],
+                      rotate: [0, -2, 2, 0]
+                    }}
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                    className="bg-brand-primary text-white text-sm md:text-base px-5 py-2 rounded-full uppercase tracking-tighter font-black shadow-xl"
+                  >
+                    DEMO
+                  </motion.span>
+                </h3>
                 <p className="text-xs font-bold opacity-40 uppercase tracking-widest">• ENGINE V2.0 • REAL-TIME PROFIT SCAN</p>
               </div>
             </div>

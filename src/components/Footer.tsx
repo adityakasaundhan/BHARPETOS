@@ -8,8 +8,9 @@ export default function Footer() {
           <div className="max-w-sm">
             <h3 className="text-4xl font-display mb-4">BHARPETOS®</h3>
             <p className="text-lg opacity-60 mb-8">
+              "BharpetOS — रेस्टोरेंट का पूरा हिसाब, एक ही किताब।" <br />
               The next-generation operating system for the modern restaurant. 
-              Designed for speed. Born in Bengaluru.
+              Designed for speed. Born in Fatehpur.
             </p>
             <div className="p-6 border-2 border-brand-bg/20 bg-brand-bg/5 hover:border-brand-primary transition-colors">
               <p className="text-xs font-black uppercase tracking-widest text-brand-highlight mb-4">Crafted By</p>
@@ -46,7 +47,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-12 border-t border-brand-bg/10 flex flex-col md:flex-row justify-between items-center text-[11px] font-bold tracking-widest text-brand-bg/50 uppercase">
-          <div>© 2026 BharpetOS Inc. — Mumbai, IN</div>
+          <div>© 2026 BharpetOS Inc. — Fatehpur, IN</div>
           <div className="flex gap-8 mt-6 md:mt-0">
             <a href="https://www.instagram.com/eternalforgetech?utm_source=qr&igsh=MTByaHUzZ3kxd2k5OA==" target="_blank" rel="noreferrer" className="hover:text-brand-primary transition-colors">Instagram</a>
             <a href="#" className="hover:text-brand-primary transition-colors">Twitter/X</a>

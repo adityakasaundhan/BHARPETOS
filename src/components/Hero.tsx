@@ -70,7 +70,7 @@ export default function Hero() {
           className="mt-10 max-w-md"
         >
           <p className="text-lg md:text-xl font-medium leading-tight opacity-80">
-            कमाई का हिसाब अब उंगलियों पर। <br />
+            मुनाफे की चाबी — BharpetOS। <br />
             The only brutalist SaaS dashboard designed to keep your kitchen running at lightspeed while you maximize every single plate of profit.
           </p>
         </motion.div>

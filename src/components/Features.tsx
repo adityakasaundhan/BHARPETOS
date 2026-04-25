@@ -3,26 +3,26 @@ import { BarChart3, Clock, LayoutGrid, Zap } from "lucide-react";
 
 const features = [
   {
-    title: "KNOW YOUR PROFIT",
-    description: "Live real-time dashboards that show exactly where your money is going.",
+    title: "मुनाफे पर नज़र",
+    description: "हर ऑर्डर का हिसाब, हर मुनाफे पर नज़र। Live real-time dashboards that show exactly where your money is going.",
     icon: BarChart3,
     color: "bg-brand-primary"
   },
   {
-    title: "ZERO LAG POS",
-    description: "Built for peak hour chaos. 0.2s order processing time.",
+    title: "तगड़ी बिलिंग",
+    description: "बिलिंग तेज़, मैनेजमेंट आसान। Built for peak hour chaos. 0.2s order processing time.",
     icon: Zap,
     color: "bg-brand-energy"
   },
   {
-    title: "MINDSET ASYNC",
-    description: "Inventory that predicts shortages before they happen.",
+    title: "स्टॉक पर पकड़",
+    description: "खर्चा, बिक्री, स्टॉक — सब पर पकड़ मजबूत। Inventory that predicts shortages before they happen.",
     icon: Clock,
     color: "bg-brand-highlight"
   },
   {
-    title: "UNIFIED STACK",
-    description: "Kitchen, front-of-house, and delivery joined in one system.",
+    title: "पूरा सिस्टम",
+    description: "बिखरा काम नहीं, पूरा सिस्टम एक नाम। Kitchen, front-of-house, and delivery joined in one system.",
     icon: LayoutGrid,
     color: "bg-brand-primary"
   }

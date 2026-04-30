@@ -91,7 +91,7 @@ export function Pricing() {
             >
               <span className="text-2xl font-black opacity-30 uppercase tracking-widest">Pricing Plan</span>
               <div className="flex items-baseline gap-2 mt-2">
-                <span className="text-8xl md:text-[140px] font-black leading-none">₹7000</span>
+                <span className="text-8xl md:text-[140px] font-black leading-none">₹8000</span>
                 <span className="text-3xl font-black uppercase">/YR</span>
               </div>
               <p className="text-brand-primary font-black mt-2 text-xl tracking-tighter italic">+ 18% GST APPLICABLE</p>

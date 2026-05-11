@@ -28,9 +28,28 @@ export default function CampaignSection() {
     <section id="about" className="py-24 px-6 bg-brand-bg scroll-mt-20">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-20">
         <div className="flex-1">
-          <h2 className="text-6xl md:text-[90px] mb-8 uppercase leading-[0.82] font-black tracking-tighter">
-            THE RESTAURANT <br />
-            <span className="text-brand-primary italic">MODULARITY</span> GRID.
+          <h2 className="text-6xl md:text-[90px] mb-8 uppercase leading-[0.82] font-black tracking-tighter flex flex-wrap gap-x-[0.2em] select-none">
+            {"THE RESTAURANT MODULARITY GRID.".split(" ").map((word, i) => (
+              <motion.span
+                key={i}
+                initial={{ y: 80, opacity: 0, skewY: 10, scale: 0.8 }}
+                whileInView={{ y: 0, opacity: 1, skewY: 0, scale: 1 }}
+                whileHover={{ 
+                  scale: 1.1, 
+                  rotate: i % 2 === 0 ? 5 : -5,
+                  color: "#FF89A9",
+                  transition: { duration: 0.2 }
+                }}
+                transition={{ 
+                  delay: i * 0.08, 
+                  duration: 0.8,
+                  ease: [0.16, 1, 0.3, 1] 
+                }}
+                className={`inline-block cursor-default origin-left ${word === "MODULARITY" ? "text-brand-primary italic" : ""}`}
+              >
+                {word}
+              </motion.span>
+            ))}
           </h2>
           <p className="text-xl md:text-2xl opacity-80 leading-tight max-w-lg font-medium">
             Everything in BharpetOS is a module. Switch terminal providers, 

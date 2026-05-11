@@ -92,8 +92,6 @@ export default function Hero() {
           </motion.button>
 
           <div className="flex flex-col">
-            <span className="text-xs font-bold opacity-50 uppercase tracking-widest">Start Today</span>
-            <span className="font-mono font-bold text-lg text-brand-text">₹8000/YR + 18% GST</span>
           </div>
         </motion.div>
       </motion.div>

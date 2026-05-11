@@ -44,14 +44,24 @@ export default function Features() {
             <span className="w-8 h-[2px] bg-brand-primary"></span>
             System Capabilities
           </div>
-          <h2 className="text-5xl md:text-[80px] leading-[0.82] mt-4 max-w-4xl flex flex-wrap gap-x-[0.2em]">
+          <h2 className="text-5xl md:text-[80px] leading-[0.82] mt-4 max-w-4xl flex flex-wrap gap-x-[0.2em] select-none">
             {title.split(" ").map((word, i) => (
               <motion.span
                 key={i}
-                initial={{ y: 50, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                transition={{ delay: i * 0.05, duration: 0.5 }}
-                className="inline-block"
+                initial={{ y: 80, opacity: 0, skewY: 10, scale: 0.8 }}
+                whileInView={{ y: 0, opacity: 1, skewY: 0, scale: 1 }}
+                whileHover={{ 
+                  scale: 1.1, 
+                  rotate: i % 2 === 0 ? 5 : -5,
+                  color: "#FF89A9",
+                  transition: { duration: 0.2 }
+                }}
+                transition={{ 
+                  delay: i * 0.08, 
+                  duration: 0.8,
+                  ease: [0.16, 1, 0.3, 1] 
+                }}
+                className="inline-block cursor-default origin-left"
               >
                 {word}
               </motion.span>

@@ -113,9 +113,28 @@ export default function App() {
               <div className="space-y-12">
                 <div>
                   <p className="text-xs font-black uppercase tracking-[0.3em] text-brand-primary mb-4">Get In Touch</p>
-                  <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-[0.85] italic mb-8">
-                    Start Your <br />
-                    <span className="text-brand-primary">Digital</span> Journey
+                  <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-[0.85] italic mb-8 flex flex-wrap gap-x-[0.2em] select-none">
+                    {"Start Your Digital Journey".split(" ").map((word, i) => (
+                      <motion.span
+                        key={i}
+                        initial={{ y: 80, opacity: 0, skewY: 10, scale: 0.8 }}
+                        whileInView={{ y: 0, opacity: 1, skewY: 0, scale: 1 }}
+                        whileHover={{ 
+                          scale: 1.1, 
+                          rotate: i % 2 === 0 ? 5 : -5,
+                          color: "#FF89A9",
+                          transition: { duration: 0.2 }
+                        }}
+                        transition={{ 
+                          delay: i * 0.08, 
+                          duration: 0.8,
+                          ease: [0.16, 1, 0.3, 1] 
+                        }}
+                        className={`inline-block cursor-default origin-left ${word === "Digital" ? "text-brand-primary" : ""}`}
+                      >
+                        {word}
+                      </motion.span>
+                    ))}
                   </h2>
                   <p className="text-xl font-medium opacity-60 leading-relaxed max-w-lg">
                     Have questions about our system or want to book a specialized consultation? Reach out to us through any of the following channels.

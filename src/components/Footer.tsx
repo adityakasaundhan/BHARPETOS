@@ -28,7 +28,14 @@ export default function Footer() {
                 </div>
                 <div>
                   <p className="text-xs opacity-50 uppercase font-bold">Inquiries</p>
-                  <p className="text-sm font-bold">eternalsforge@gmail.com</p>
+                  <a 
+                    href="https://mail.google.com/mail/?view=cm&fs=1&to=eternalsforge@gmail.com" 
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="text-sm font-bold hover:text-brand-primary transition-colors hover:underline block cursor-pointer"
+                  >
+                    eternalsforge@gmail.com
+                  </a>
                 </div>
               </div>
             </div>

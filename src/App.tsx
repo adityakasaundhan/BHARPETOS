@@ -186,7 +186,14 @@ export default function App() {
                     </div>
                     <div>
                        <p className="text-lg font-black uppercase">Email Inquiry</p>
-                       <p className="text-2xl font-black tracking-tighter text-brand-primary">eternalsforge@gmail.com</p>
+                       <a 
+                         href="https://mail.google.com/mail/?view=cm&fs=1&to=eternalsforge@gmail.com" 
+                         target="_blank" 
+                         rel="noreferrer"
+                         className="text-2xl font-black tracking-tighter text-brand-primary hover:text-brand-text transition-colors hover:underline block cursor-pointer"
+                       >
+                         eternalsforge@gmail.com
+                       </a>
                        <p className="text-sm opacity-40 font-bold uppercase">Typical response within 24 hours</p>
                     </div>
                   </div>

@@ -157,7 +157,7 @@ export default function PhotoScanFeature() {
             <span className="w-8 h-[2px] bg-brand-primary"></span>
             Intelligence First Platform
           </div>
-          <h2 className="text-6.5xl md:text-[85px] font-black uppercase tracking-tighter leading-[0.8] mb-8 select-none">
+          <h2 className="text-4xl sm:text-6.5xl md:text-[85px] font-black uppercase tracking-tighter leading-[0.95] md:leading-[0.8] mb-8 select-none">
             PHOTO SCAN TO <br />
             <span className="text-brand-primary italic">INVENTORY & EXPENSES</span>
           </h2>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Logo from "./Logo";
-import { Calculator, Play, ChevronDown, Check, Sparkles, TrendingUp, X, BellDot, RefreshCw } from "lucide-react";
+import { Calculator, Play, ChevronDown, Check, Sparkles, TrendingUp, X, BellDot, RefreshCw, Menu } from "lucide-react";
 
 interface MockOrder {
   id: string;
@@ -13,6 +13,7 @@ interface MockOrder {
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [roiOpen, setRoiOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   // Interactive Simulator States
   const [dailyOrders, setDailyOrders] = useState(120);
@@ -68,32 +69,32 @@ export default function Navbar() {
         initial={{ y: -100 }}
         animate={{ 
           y: 0,
-          height: scrolled ? 70 : 88,
+          height: scrolled ? 64 : 88,
           backgroundColor: scrolled ? "rgba(228, 226, 221, 0.95)" : "transparent",
           backdropFilter: scrolled ? "blur(12px)" : "blur(0px)",
           borderBottom: scrolled ? "4px solid #1E1E1E" : "1px solid transparent"
         }}
-        className="fixed top-0 left-0 right-0 z-50 flex items-center px-6 transition-all"
+        className="fixed top-0 left-0 right-0 z-50 flex items-center px-4 md:px-6 transition-all"
       >
         <div className="max-w-7xl mx-auto w-full flex justify-between items-center">
           
           {/* Logo container with brand and logo shifted to the left of the Calligraphy text */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4">
             <Logo 
               variant="badge"
-              size={48} 
+              size={scrolled ? 40 : 48} 
               className="cursor-pointer hover:rotate-6 transition-transform duration-300 shadow-md"
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             />
 
             <motion.div 
-              initial={{ opacity: 0, x: -20, scale: 0.9 }}
+              initial={{ opacity: 0, x: -25, scale: 0.9 }}
               animate={{ opacity: 0.95, x: 0, scale: 1 }}
               transition={{ duration: 0.8 }}
-              className="flex flex-col items-start justify-center select-none cursor-pointer hidden sm:flex"
+              className="flex flex-col items-start justify-center select-none cursor-pointer"
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             >
-              <span className="font-calligraphy text-5xl md:text-6xl font-black text-[#183656] tracking-wide leading-none -rotate-3 -translate-y-1.5 drop-shadow-sm">
+              <span className="font-calligraphy text-2xl xs:text-3.5xl sm:text-5xl md:text-6xl font-black text-[#183656] tracking-wide leading-none -rotate-3 -translate-y-1.5 drop-shadow-sm">
                 Bharpetos
               </span>
             </motion.div>
@@ -218,17 +219,150 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* Contact Button */}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-brand-text text-white px-5 py-2.5 rounded-none font-bold text-[11px] uppercase tracking-widest border-r-4 border-b-4 border-brand-primary/30 hover:bg-brand-primary transition-all"
-          >
-            GET CONTROL
-          </motion.button>
+          <div className="flex items-center gap-2 font-bold my-1 text-xs">
+            {/* Contact Button */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              className="bg-brand-text text-white px-3 md:px-5 py-2 md:py-2.5 rounded-none font-bold text-[9px] md:text-[11px] uppercase tracking-widest border-r-4 border-b-4 border-brand-primary/30 hover:bg-brand-primary transition-all cursor-pointer"
+            >
+              GET CONTROL
+            </motion.button>
+
+            {/* Hamburger Button for mobile */}
+            <button 
+              onClick={() => setMobileMenuOpen(true)}
+              className="lg:hidden p-2 border-2 border-brand-text text-brand-text hover:bg-brand-text hover:text-white transition-colors cursor-pointer ml-1"
+            >
+              <Menu size={18} />
+            </button>
+          </div>
         </div>
       </motion.nav>
+
+      {/* Mobile Menu Drawer */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            transition={{ type: "tween", duration: 0.3 }}
+            className="fixed inset-0 z-[100] bg-[#E4E2DD] text-brand-text flex flex-col p-6 overflow-y-auto"
+          >
+            {/* Header */}
+            <div className="flex justify-between items-center pb-4 border-b-2 border-brand-text mb-6 shrink-0">
+              <div className="flex items-center gap-3">
+                <Logo variant="badge" size={36} />
+                <span className="font-calligraphy text-3xl font-black text-[#183656] -rotate-3">
+                  Bharpetos
+                </span>
+              </div>
+              <button 
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-2 border-2 border-brand-text text-brand-text hover:bg-brand-text hover:text-white transition-colors cursor-pointer"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Navigation Lists */}
+            <div className="flex flex-col gap-4 text-left font-display text-lg font-black tracking-widest border-b-2 border-brand-text/10 pb-6 mb-6 shrink-0">
+              {["FEATURES", "SCANNER", "PRODUCTS", "PRICING", "ABOUT"].map((item) => (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="hover:text-brand-primary transition-colors py-1.5 block uppercase"
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
+
+            {/* Mobile KOT Simulator Direct Link */}
+            <div className="space-y-3 mb-6 shrink-0">
+              <span className="text-[10px] font-black opacity-45 uppercase tracking-widest block">Simulation Suite</span>
+              <button
+                onClick={() => {
+                  triggerMockKOT();
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center justify-center gap-2 font-black text-xs tracking-wider text-white bg-brand-text py-3 border-2 border-brand-text hover:bg-brand-primary hover:border-brand-primary transition-all uppercase cursor-pointer"
+              >
+                <Play size={11} className="fill-white shrink-0" />
+                SIMULATE ORDERS ON SCREEN
+              </button>
+            </div>
+
+            {/* Mobile ROI Calculator Segment */}
+            <div className="border-2 border-brand-text bg-white p-5 shadow-[6px_6px_0px_#1E1E1E] text-left shrink-0">
+              <h4 className="font-black text-xs uppercase tracking-tight flex items-center gap-2 pb-2 border-b border-brand-text/10 mb-4">
+                <Calculator size={13} className="text-brand-primary" /> Live ROI Calculator Savings
+              </h4>
+
+              {/* Slider 1 */}
+              <div className="space-y-1 mb-4">
+                <div className="flex justify-between text-xxs font-black uppercase">
+                  <span>Daily Orders: {dailyOrders} KOTs</span>
+                </div>
+                <input 
+                  type="range" 
+                  min="20" 
+                  max="500" 
+                  value={dailyOrders} 
+                  onChange={(e) => setDailyOrders(Number(e.target.value))}
+                  className="w-full h-1.5 bg-brand-bg rounded-lg appearance-none cursor-pointer accent-brand-primary"
+                />
+              </div>
+
+              {/* Slider 2 */}
+              <div className="space-y-1 mb-4">
+                <div className="flex justify-between text-xxs font-black uppercase">
+                  <span>Avg Ticket Price: ₹{avgTicket}</span>
+                </div>
+                <input 
+                  type="range" 
+                  min="100" 
+                  max="1500" 
+                  step="50"
+                  value={avgTicket} 
+                  onChange={(e) => setAvgTicket(Number(e.target.value))}
+                  className="w-full h-1.5 bg-brand-bg rounded-lg appearance-none cursor-pointer accent-brand-primary"
+                />
+              </div>
+
+              {/* Savings Results */}
+              <div className="p-3 bg-brand-bg/65 border border-brand-text/10 rounded-lg space-y-1.5 mb-2.5 font-sans">
+                <div className="flex justify-between items-center text-[10px] font-bold uppercase">
+                  <span>Estimated leak saved:</span>
+                  <span className="text-emerald-700 font-extrabold text-xs">₹{monthlySavings.toLocaleString('en-IN')}/mo</span>
+                </div>
+                <div className="flex justify-between items-center text-[10px] font-bold uppercase">
+                  <span>BharpetOS Annual Gain:</span>
+                  <span className="text-brand-primary font-black text-xs">₹{annualSavings.toLocaleString('en-IN')}/yr</span>
+                </div>
+              </div>
+
+              <div className="text-[9px] font-bold text-center text-[#183656] bg-brand-energy/25 py-1.5 border border-brand-energy/35 rounded uppercase">
+                🎉 Pays for license in <span className="font-black">{paysBackInDays} days</span>!
+              </div>
+            </div>
+
+            {/* Get Control Footer Button */}
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="mt-6 w-full bg-brand-primary hover:bg-brand-text text-white py-4 font-black uppercase text-xs tracking-widest transition-colors shrink-0 cursor-pointer"
+            >
+              Get Control Now
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Floating simulator alert nodes & notifications on screen corner */}
       <div className="fixed top-24 right-6 z-50 pointer-events-none select-none max-w-sm space-y-3">
@@ -271,7 +405,7 @@ export default function Navbar() {
               </div>
               <button
                 onClick={() => removeKOT(kot.id)}
-                className="w-6 h-6 rounded-full bg-brand-bg hover:bg-brand-primary hover:text-white flex items-center justify-center text-[10px] font-black pointer-events-auto transition-colors"
+                className="w-6 h-6 rounded-full bg-brand-bg hover:bg-brand-primary hover:text-white flex items-center justify-center text-[10px] font-black pointer-events-auto transition-colors cursor-pointer"
                 title="Mark Cooked & Route"
               >
                 ✓

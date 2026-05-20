@@ -76,7 +76,59 @@ export default function SystemShowcase() {
   );
 }
 
+import { TrendingUp, Sparkles, Receipt, Trash2, HelpCircle } from "lucide-react";
+
+interface CartItem {
+  id: string;
+  n: string;
+  qty: number;
+  p: number; // selling price
+  c: number; // cost price
+}
+
 function POSMockup() {
+  const [cart, setCart] = useState<CartItem[]>([
+    { id: '1', n: 'PANEER TIKKA MASALA', qty: 1, p: 310, c: 110 },
+    { id: '2', n: 'MISSE ROTI', qty: 2, p: 45, c: 12 }
+  ]);
+
+  const menuItems = [
+    { id: '1', n: 'PANEER TIKKA MASALA', p: 310, c: 110, s: 'Full/Half', cat: 'Main Course' },
+    { id: '2', n: 'MISSE ROTI', p: 45, c: 12, s: 'Add Full', cat: 'Bread' },
+    { id: '3', n: 'GULAB JAMUN', p: 50, c: 15, s: 'Add Full', cat: 'Dessert' },
+    { id: '4', n: 'BUTTER TANDOORI ROTI', p: 25, c: 6, s: 'Add Full', cat: 'Bread' }
+  ];
+
+  const addToCart = (item: typeof menuItems[0]) => {
+    setCart(prev => {
+      const existing = prev.find(i => i.id === item.id);
+      if (existing) {
+        return prev.map(i => i.id === item.id ? { ...i, qty: i.qty + 1 } : i);
+      }
+      return [...prev, { id: item.id, n: item.n, qty: 1, p: item.p, c: item.c }];
+    });
+  };
+
+  const updateQty = (id: string, delta: number) => {
+    setCart(prev => prev.map(item => {
+      if (item.id === id) {
+        const newQty = item.qty + delta;
+        return newQty > 0 ? { ...item, qty: newQty } : item;
+      }
+      return item;
+    }).filter(i => i.qty > 0));
+  };
+
+  const removeFromCart = (id: string) => {
+    setCart(prev => prev.filter(i => i.id !== id));
+  };
+
+  // Calculations
+  const subtotal = cart.reduce((sum, item) => sum + (item.p * item.qty), 0);
+  const totalCost = cart.reduce((sum, item) => sum + (item.c * item.qty), 0);
+  const profit = subtotal - totalCost;
+  const marginPercentage = subtotal > 0 ? Math.round((profit / subtotal) * 100) : 0;
+
   return (
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
@@ -84,74 +136,197 @@ function POSMockup() {
       exit={{ opacity: 0, scale: 1.05 }}
       className="h-full flex flex-col bg-[#F7F7F7]"
     >
-      <div className="bg-white p-4 border-b flex justify-between items-center">
+      <div className="bg-white p-4 border-b flex justify-between items-center shrink-0">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-brand-text rounded-full" />
-          <span className="font-black text-sm uppercase tracking-tighter">Royal Orchid Dine-in</span>
+          <div className="w-8 h-8 rounded-full bg-brand-text flex items-center justify-center text-white text-[10px] font-black">B</div>
+          <div>
+            <span className="font-black text-xs uppercase tracking-tighter block leading-none">Royal Orchid Dine-in</span>
+            <span className="text-[8px] font-bold text-emerald-600">TABLE 04 • WORKING SESSION</span>
+          </div>
           <span className="bg-orange-500 text-white text-[8px] px-2 py-0.5 rounded font-black">PRO PLAN</span>
         </div>
-        <div className="text-[10px] font-bold opacity-40">System Live • 10:34 am</div>
+        <div className="flex items-center gap-2">
+          <span className="animate-pulse w-2 h-2 rounded-full bg-emerald-500" />
+          <div className="text-[10px] font-bold opacity-50">System Live • Real-time margins active</div>
+        </div>
       </div>
 
       <div className="flex-1 flex overflow-hidden">
-        {/* Left Sidebar */}
-        <div className="w-48 bg-brand-text text-white p-4 space-y-4">
-           {['Dashboard', 'POS Billing', 'Live Orders', 'Menu', 'Tables', 'Inventory'].map((item, i) => (
-             <div key={item} className={`p-2 rounded text-[10px] font-black uppercase tracking-widest cursor-pointer ${i === 1 ? 'bg-orange-500/20 text-orange-500 border-l-2 border-orange-500' : 'opacity-40'}`}>
-                {item}
-             </div>
-           ))}
+        {/* Left Sidebar Actions & Integrations */}
+        <div className="w-44 bg-brand-text text-white p-3 space-y-3 shrink-0 flex flex-col justify-between">
+           <div className="space-y-2">
+             <p className="text-[9px] font-black text-brand-primary/80 uppercase px-2">Operator Panel</p>
+             {[
+               { name: 'POS Billing', active: true },
+               { name: 'Live Orders', active: false },
+               { name: 'Table Margins', active: false },
+               { name: 'Raw Cost Audit', active: false }
+             ].map((item) => (
+               <div 
+                 key={item.name} 
+                 className={`p-2 rounded text-[9px] font-black uppercase tracking-wider cursor-pointer transition-colors ${
+                   item.active 
+                     ? 'bg-brand-primary text-white border-l-4 border-brand-primary' 
+                     : 'opacity-50 hover:bg-white/5 hover:opacity-100'
+                 }`}
+               >
+                  {item.name}
+               </div>
+             ))}
+           </div>
+           
+           <div className="p-2 border-2 border-dashed border-white/15 rounded bg-white/5 space-y-1">
+             <span className="text-[8px] font-black opacity-40 uppercase block">Smart Forecast</span>
+             <p className="text-[9px] font-bold leading-tight text-brand-energy">
+               📉 High demand expected for Paneer tonight. Pre-prep suggested.
+             </p>
+           </div>
         </div>
 
-        {/* Content Area */}
-        <div className="flex-1 p-6 overflow-y-auto">
-          <div className="flex gap-2 mb-8 bg-white p-2 border rounded-xl overflow-x-auto">
-            {['All', 'Main Course', 'Bread', 'Dessert', 'Starter', 'Drink'].map(t => (
-              <span key={t} className={`whitespace-nowrap px-4 py-2 text-[9px] font-black uppercase rounded-lg ${t === 'All' ? 'bg-orange-500 text-white' : 'bg-gray-50'}`}>
-                {t}
-              </span>
-            ))}
+        {/* Menu Items Grid for Billing */}
+        <div className="flex-1 p-5 overflow-y-auto bg-gray-50/50">
+          <div className="flex justify-between items-center mb-4">
+            <h4 className="font-black text-xs uppercase tracking-wider text-brand-text/60">Tap to add items:</h4>
+            <span className="text-[10px] bg-brand-primary/10 text-brand-primary px-2 py-0.5 font-black uppercase rounded">
+              MENU COST RATIOS ENABLED
+            </span>
           </div>
           
-          <div className="grid grid-cols-2 gap-4">
-            {[
-              { n: 'PANEER TIKKA MASALA', p: '₹310.00', s: 'Full/Half' },
-              { n: 'MISSE ROTI', p: '₹45.00', s: 'Add Full' },
-              { n: 'GULAB JAMUN', p: '₹30.00', s: 'Add Full' },
-              { n: 'BUTTER TANDOORI ROTI', p: '₹20.00', s: 'Add Full' }
-            ].map((item, i) => (
-              <div key={i} className="bg-white p-5 rounded-2xl border shadow-sm group">
-                <div className="flex justify-between items-start mb-6">
-                  <div className="w-2 h-2 rounded-full bg-green-500" />
-                  <span className="font-black text-xs">{item.p}</span>
+          <div className="grid grid-cols-2 gap-3">
+            {menuItems.map((item) => {
+              const profitMarginRatio = Math.round(((item.p - item.c) / item.p) * 100);
+              return (
+                <div 
+                  key={item.id} 
+                  onClick={() => addToCart(item)}
+                  className="bg-white p-4 rounded-xl border border-brand-text/5 hover:border-brand-primary hover:shadow-md cursor-pointer transition-all dynamic-hover select-none group relative overflow-hidden"
+                >
+                  <div className="flex justify-between items-start mb-2">
+                    <span className="bg-emerald-50 text-emerald-700 text-[8px] px-1.5 py-0.5 font-black uppercase rounded">
+                      ₹{item.p}
+                    </span>
+                    <span className="text-[8px] text-gray-400 font-bold group-hover:text-brand-primary transition-colors">
+                      {item.cat}
+                    </span>
+                  </div>
+                  <h4 className="font-black text-xxs tracking-normal uppercase text-brand-text line-clamp-1 group-hover:text-brand-primary transition-colors mb-2">
+                    {item.n}
+                  </h4>
+                  <div className="flex justify-between items-center pt-2 border-t border-brand-text/5">
+                    <span className="text-[8px] text-gray-400 font-semibold uppercase">Cost: ₹{item.c}</span>
+                    <span className="text-[9px] text-emerald-600 font-black">+{profitMarginRatio}% profit</span>
+                  </div>
                 </div>
-                <h4 className="font-black text-sm uppercase mb-6 tracking-tight leading-none h-8">{item.n}</h4>
-                <div className="flex gap-2">
-                  <button className="flex-1 bg-orange-100 text-orange-600 text-[8px] font-black py-2 rounded-lg uppercase">Add Full</button>
-                  {item.s.includes('/') && <button className="flex-1 bg-orange-500 text-white text-[8px] font-black py-2 rounded-lg uppercase">Half</button>}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
-        {/* Right Cart Sidebar */}
-        <div className="w-64 bg-white border-l p-4 flex flex-col">
-           <div className="flex justify-between border-b pb-4 mb-4">
-              <span className="text-[10px] font-black text-orange-500 border-b-2 border-orange-500 pb-1">CURRENT CART</span>
-              <span className="text-[10px] font-black opacity-30">LIVE ORDERS</span>
+        {/* Right Cart Sidebar with Real-time Profit Tracking */}
+        <div className="w-72 bg-white border-l p-4 flex flex-col justify-between shrink-0">
+           <div>
+             <div className="flex justify-between items-center border-b pb-3 mb-3">
+                <span className="text-[10px] font-black text-brand-primary pb-1 flex items-center gap-1">
+                  <Receipt size={12} /> ACTIVE CART ({cart.reduce((s, i) => s + i.qty, 0)})
+                </span>
+                <button 
+                  onClick={() => setCart([])} 
+                  className="text-[9px] font-black text-red-500 hover:underline uppercase"
+                >
+                  Clear
+                </button>
+             </div>
+
+             {cart.length === 0 ? (
+               <div className="py-20 flex flex-col items-center justify-center text-center opacity-40">
+                  <ShoppingCart size={32} className="text-gray-400 animate-pulse mb-3" />
+                  <p className="text-[9px] font-black uppercase tracking-tight">Your Cart is Empty</p>
+                  <p className="text-[8px] text-gray-400 mt-1 max-w-[150px]">Click menu cards to build an order and analyze live operations</p>
+               </div>
+             ) : (
+               <div className="space-y-2 max-h-[220px] overflow-y-auto pr-1">
+                 {cart.map((item) => {
+                   const itemProfit = (item.p - item.c) * item.qty;
+                   const itemMargin = Math.round((itemProfit / (item.p * item.qty)) * 100);
+                   return (
+                     <div key={item.id} className="p-2 border border-brand-text/5 bg-gray-50/50 rounded flex items-center justify-between group">
+                       <div className="flex-1 pr-2">
+                         <h5 className="font-black text-[9px] text-brand-text leading-tight uppercase line-clamp-1">{item.n}</h5>
+                         <div className="flex items-center gap-2 mt-1">
+                           <span className="text-[8px] bg-white border px-1 rounded font-bold">Qty: {item.qty}</span>
+                           <span className="text-[8px] text-gray-400">Cost: ₹{item.c * item.qty} ({itemMargin}% Margin)</span>
+                         </div>
+                       </div>
+                       
+                       <div className="text-right shrink-0 flex items-center gap-2">
+                         <div>
+                           <p className="font-black text-[10px] text-brand-text">₹{item.p * item.qty}</p>
+                           <p className="text-[7.5px] font-extrabold text-emerald-600">Profit: +₹{itemProfit}</p>
+                         </div>
+                         <div className="flex flex-col gap-1">
+                           <button 
+                             onClick={() => updateQty(item.id, 1)} 
+                             className="text-gray-400 hover:text-brand-text font-black text-[10px] w-4 h-4 rounded bg-white border flex items-center justify-center shadow-xs"
+                           >
+                             +
+                           </button>
+                           <button 
+                             onClick={() => updateQty(item.id, -1)} 
+                             className="text-gray-400 hover:text-brand-text font-black text-[10px] w-4 h-4 rounded bg-white border flex items-center justify-center shadow-xs"
+                           >
+                             -
+                           </button>
+                         </div>
+                       </div>
+                     </div>
+                   );
+                 })}
+               </div>
+             )}
            </div>
-           <div className="flex-1 flex flex-col items-center justify-center opacity-10">
-              <ShoppingCart size={48} />
-              <p className="text-[10px] font-black uppercase mt-4">Cart is Empty</p>
-           </div>
-           <div className="border-t pt-4 space-y-4">
-              <div className="flex justify-between text-[10px] font-bold opacity-40">
-                 <span>Subtotal</span>
-                 <span>₹0.00</span>
+
+           {/* Total Profit Margins Widget - The CORE Value Proposition */}
+           <div className="border-t pt-3 mt-3 space-y-2">
+              <div className="space-y-1 bg-brand-bg/25 p-2 rounded border border-brand-text/5">
+                 <div className="flex justify-between text-[8px] font-black uppercase text-gray-500">
+                    <span>Order Subtotal</span>
+                    <span className="font-bold text-brand-text">₹{subtotal.toFixed(2)}</span>
+                 </div>
+                 <div className="flex justify-between text-[8px] font-black uppercase text-gray-500">
+                    <span>Active Raw Cost (Ingredients)</span>
+                    <span className="font-bold text-red-600">₹{totalCost.toFixed(2)}</span>
+                 </div>
+                 
+                 {cart.length > 0 && (
+                   <div className="pt-1.5 border-t border-brand-text/5 flex justify-between items-center">
+                      <span className="text-[8px] font-black uppercase text-emerald-700 flex items-center gap-0.5">
+                        <TrendingUp size={10} /> NET PROFIT (PROFIT-LOCK)
+                      </span>
+                      <span className="text-[11px] font-black text-emerald-700">₹{profit.toFixed(2)}</span>
+                   </div>
+                 )}
               </div>
-              <p className="text-xl font-black text-right">₹0.00</p>
-              <button className="w-full bg-orange-200/50 text-orange-400 py-4 rounded-2xl font-black uppercase text-[10px] cursor-not-allowed">Place Order</button>
+
+              {cart.length > 0 && (
+                <div className="bg-emerald-600 text-white p-2 text-center rounded text-[10px] font-black tracking-wider uppercase flex justify-between items-center">
+                  <span>GROSS LIVE MARGIN:</span>
+                  <span className="bg-white text-emerald-700 px-1.5 py-0.5 rounded text-[9px] font-black font-mono">
+                    {marginPercentage}%
+                  </span>
+                </div>
+              )}
+
+              <button 
+                disabled={cart.length === 0}
+                className={`w-full py-2.5 rounded-lg font-black uppercase text-[10px] tracking-widest flex items-center justify-center gap-1.5 transition-all ${
+                  cart.length > 0 
+                    ? 'bg-brand-primary text-white hover:bg-opacity-95' 
+                    : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                }`}
+              >
+                 <Sparkles size={11} className={cart.length > 0 ? 'animate-pulse' : ''} />
+                 DEDUCT & ROUTE KOT
+              </button>
            </div>
         </div>
       </div>
@@ -167,51 +342,71 @@ function KitchenMockup() {
       exit={{ opacity: 0, y: -20 }}
       className="h-full bg-[#EFEFEF] flex flex-col"
     >
-      <div className="bg-white p-4 border-b flex justify-between items-center">
-        <h3 className="text-xl font-black uppercase tracking-tighter">Live Kitchen Feed</h3>
-        <div className="relative">
-          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 opacity-20" />
-          <input disabled placeholder="Search Order No..." className="bg-gray-100 rounded-xl pl-10 pr-4 py-2 text-[10px] border-none" />
+      <div className="bg-white p-4 border-b flex justify-between items-center shrink-0">
+        <div>
+          <h3 className="text-sm font-black uppercase tracking-tighter">Live KOT Kitchen Grid</h3>
+          <p className="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Waiter App Sync Active • 100% orders routed</p>
+        </div>
+        <div className="flex gap-2">
+          <span className="text-[8px] font-black bg-blue-100 text-blue-800 px-2 py-1 rounded uppercase">
+            Orders pending: 1
+          </span>
+          <span className="text-[8px] font-black bg-emerald-100 text-emerald-800 px-2 py-1 rounded uppercase">
+            Active Cooks: 3
+          </span>
         </div>
       </div>
       
-      <div className="p-8">
+      <div className="p-6 flex-1 overflow-y-auto">
         <motion.div 
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="w-80 bg-white rounded-3xl shadow-2xl overflow-hidden border-2 border-orange-500/20"
+          className="w-full bg-white rounded-2xl shadow-lg overflow-hidden border-2 border-brand-primary"
         >
-           <div className="bg-orange-500 p-6 flex justify-between items-center text-white">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center font-black">T-A</div>
+           <div className="bg-brand-primary p-4 flex justify-between items-center text-white">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center font-black text-xs">T-04</div>
                 <div>
-                  <p className="text-[10px] font-black opacity-60 uppercase tracking-widest">ORD-7IR65</p>
-                  <p className="text-xs font-bold bg-white/20 inline-block px-2 py-0.5 rounded uppercase">Pending</p>
+                  <p className="text-[10px] font-black opacity-80 uppercase tracking-widest">ORD-7IR65 • Dine-in</p>
+                  <p className="text-[9px] font-bold bg-white/20 inline-block px-1.5 py-0.5 rounded uppercase">Routed by: Waiter Ashish</p>
                 </div>
               </div>
+              <div className="text-right">
+                <p className="text-[8px] font-bold opacity-60">EST. PREP</p>
+                <p className="text-xs font-black text-[#ECA825]">12 MINUTES</p>
+              </div>
            </div>
-           <div className="p-6 space-y-6">
-              <div className="flex gap-4 group">
-                 <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center font-black text-xs border group-hover:bg-orange-50 transition-colors">2</div>
+           
+           <div className="p-5 space-y-4 text-brand-text">
+              <div className="flex gap-3 group border-b pb-3 border-gray-100">
+                 <div className="w-6 h-6 rounded-full bg-brand-primary/10 text-brand-primary flex items-center justify-center font-black text-xs border border-brand-primary/20 shrink-0">2</div>
                  <div className="flex-1">
                     <div className="flex justify-between items-start">
-                       <h4 className="font-black text-xs uppercase">Paneer Tikka Masala (Half)</h4>
-                       <span className="text-[10px] font-bold opacity-30">₹360.00</span>
+                       <h4 className="font-black text-xs uppercase text-brand-text">Paneer Tikka Masala (Half)</h4>
+                       <span className="text-[8px] bg-[#ECA825]/20 text-[#183656] px-1.5 py-0.5 font-bold rounded uppercase">MEDIUM SPICY</span>
                     </div>
-                    <p className="text-[9px] font-black text-orange-500 uppercase mt-1">Half</p>
+                    <p className="text-[9px] font-bold text-red-500 uppercase mt-1">⚠️ Preference: Make dry, add extra ginger strips</p>
                  </div>
               </div>
-              <div className="flex gap-4">
-                 <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center font-black text-xs border">3</div>
+              
+              <div className="flex gap-3 text-brand-text pb-2 border-b border-gray-100">
+                 <div className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center font-black text-xs border shrink-0">3</div>
                  <div className="flex-1">
                     <div className="flex justify-between items-start">
                        <h4 className="font-black text-xs uppercase">Misse Roti</h4>
-                       <span className="text-[10px] font-bold opacity-30">₹135.00</span>
+                       <span className="text-[8px] text-emerald-600 font-bold uppercase">BUTTER SPREAD</span>
                     </div>
                  </div>
               </div>
-              <button className="w-full bg-blue-500 text-white rounded-2xl py-5 mt-6 font-black uppercase text-[10px] tracking-widest flex items-center justify-center gap-3 shadow-lg shadow-blue-500/30">
-                 <Clock size={16} /> Start Cooking
+
+              {/* Live Prep Status Metadata */}
+              <div className="flex items-center justify-between text-[9px] bg-brand-bg/30 p-2.5 rounded border border-brand-text/5">
+                <span className="font-bold opacity-50 uppercase">Ingredients Pre-Deducted</span>
+                <span className="font-mono text-emerald-700 font-black">✓ 350g Paneer, 45g Ghee, Spices locked</span>
+              </div>
+
+              <button className="w-full bg-emerald-600 text-white rounded-xl py-3.5 mt-2 font-black uppercase text-[10px] tracking-widest flex items-center justify-center gap-2 shadow-lg hover:bg-emerald-700 transition-colors">
+                 <Clock size={14} /> COMPLETE & NOTIFY WAITER
               </button>
            </div>
         </motion.div>
@@ -228,63 +423,120 @@ function InventoryMockup() {
       exit={{ opacity: 0, x: -20 }}
       className="h-full bg-white flex flex-col"
     >
-      <div className="p-8 border-b flex justify-between items-center">
+      <div className="p-6 border-b flex justify-between items-center shrink-0">
         <div>
-          <h3 className="text-3xl font-black uppercase tracking-tighter">Inventory Management</h3>
-          <p className="text-sm font-bold opacity-40">Track your stock levels, ingredients and supplies.</p>
+          <h3 className="text-xl font-black uppercase tracking-tighter">AI Inventory Consumption Core</h3>
+          <p className="text-[10px] font-bold opacity-40 uppercase tracking-wider">Auto stock depletion based on POS & Waiter recipe billing</p>
         </div>
-        <button className="bg-black text-white px-8 py-3 rounded-2xl font-black uppercase text-xs flex items-center gap-3">
-           <Plus size={18} /> New Item
+        <button className="bg-brand-text text-white px-5 py-2 rounded-xl font-black uppercase text-[10px] flex items-center gap-1.5 hover:bg-brand-primary transition-colors">
+           <Plus size={14} /> Manual Inward Adjust
         </button>
       </div>
 
-      <div className="p-8 flex gap-6">
-         <div className="flex-1 p-6 bg-gray-50 rounded-3xl border border-gray-100 flex items-center gap-6">
-            <div className="w-12 h-12 bg-white rounded-2xl shadow-sm flex items-center justify-center text-orange-500"><Package /></div>
+      {/* High-level stock alerts */}
+      <div className="px-6 pt-4 grid grid-cols-3 gap-3 shrink-0">
+         <div className="p-3 bg-gray-50 rounded-xl border border-gray-100 flex items-center gap-3">
+            <div className="w-8 h-8 bg-white rounded-lg shadow-sm flex items-center justify-center text-brand-primary"><Package size={16} /></div>
             <div>
-               <p className="text-[10px] font-black uppercase opacity-40">Total Items</p>
-               <p className="text-4xl font-black">6</p>
+               <p className="text-[8px] font-black uppercase opacity-40">Total Raw Goods</p>
+               <p className="text-lg font-black leading-none">42 Items</p>
             </div>
          </div>
-         <div className="flex-1 p-6 bg-orange-50 rounded-3xl border border-orange-100 flex items-center gap-6">
-            <div className="w-12 h-12 bg-white rounded-2xl shadow-sm flex items-center justify-center text-red-500"><Activity /></div>
+         <div className="p-3 bg-red-50 rounded-xl border border-red-100 flex items-center gap-3">
+            <div className="w-8 h-8 bg-white rounded-lg shadow-sm flex items-center justify-center text-red-500"><Activity size={16} /></div>
             <div>
-               <p className="text-[10px] font-black uppercase opacity-40 text-red-500">Low Stock</p>
-               <p className="text-4xl font-black text-red-500">0</p>
+               <p className="text-[8px] font-black uppercase opacity-40 text-red-500">Below Safety Limit</p>
+               <p className="text-lg font-black text-red-500 leading-none">1 Alert</p>
+            </div>
+         </div>
+         <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-100 flex items-center gap-3">
+            <div className="w-8 h-8 bg-white rounded-lg shadow-sm flex items-center justify-center text-emerald-600"><CheckCircle2 size={16} /></div>
+            <div>
+               <p className="text-[8px] font-black uppercase opacity-40 text-emerald-600">Avg Food Waste Avoided</p>
+               <p className="text-lg font-black text-emerald-600 leading-none">14.2% / mo</p>
             </div>
          </div>
       </div>
 
-      <div className="px-8 flex-1 overflow-y-auto">
-         <table className="w-full">
-            <thead className="border-b text-left">
+      <div className="px-6 flex-1 overflow-y-auto">
+         <table className="w-full text-left">
+            <thead className="border-b">
                <tr>
-                  <th className="py-4 text-[10px] font-black uppercase opacity-30">Item Name</th>
-                  <th className="py-4 text-[10px] font-black uppercase opacity-30">In Stock</th>
-                  <th className="py-4 text-[10px] font-black uppercase opacity-30">Pricing</th>
-                  <th className="py-4 text-[10px] font-black uppercase opacity-30">Actions</th>
+                  <th className="py-2.5 text-[8.5px] font-black uppercase opacity-45">Ingredient Name & Class</th>
+                  <th className="py-2.5 text-[8.5px] font-black uppercase opacity-45">Current Stock Level</th>
+                  <th className="py-2.5 text-[8.5px] font-black uppercase opacity-45">Predicted depletion</th>
+                  <th className="py-2.5 text-[8.5px] font-black uppercase opacity-45">Cost Trend & Smart Actions</th>
                </tr>
             </thead>
-            <tbody className="divide-y">
+            <tbody className="divide-y text-brand-text">
                {[
-                 { n: 'HALDI', c: 'Masala', s: '9.95 kg', p: '₹20.00' },
-                 { n: 'PANNER', c: 'Dairy', s: '48.2 kg', p: '₹320.00' },
-                 { n: 'TOMATO', c: 'Vegetables', s: '25 kg', p: '₹20.00' }
+                 { 
+                   n: 'FRESH PANNER (A-GRADE)', 
+                   c: 'Masala & Dairy', 
+                   s: '4.8 kg', 
+                   status: 'CRITICAL LOW',
+                   daysLeft: '0.8 Days Remaining',
+                   waste: '2.1% loss', 
+                   p: '₹320.00/kg',
+                   trend: 'Rate stable (0.0%)'
+                 },
+                 { 
+                   n: 'KASHMIRI MIRCH POWDER', 
+                   c: 'Masala / Spices', 
+                   s: '12.4 kg', 
+                   status: 'HEALTHY',
+                   daysLeft: '22 Days Remaining',
+                   waste: '0.5% loss', 
+                   p: '₹480.00/kg',
+                   trend: 'Rate down -3.2% ↓'
+                 },
+                 { 
+                   n: 'DESI GHEE (VERKA BRAND)', 
+                   c: 'Commercial Cooking fats', 
+                   s: '18.1 Ltr', 
+                   status: 'HEALTHY',
+                   daysLeft: '11 Days Remaining',
+                   waste: '1.2% loss', 
+                   p: '₹680/Ltr',
+                   trend: 'Price Alert: High (+4.5% ↑)'
+                 }
                ].map((item, i) => (
-                  <tr key={i} className="group hover:bg-gray-50 transition-colors">
-                     <td className="py-6">
-                        <p className="font-black text-sm uppercase">{item.n}</p>
-                        <p className="text-[9px] font-black uppercase opacity-30">{item.c}</p>
+                  <tr key={i} className="group hover:bg-gray-50/70 transition-colors">
+                     <td className="py-3">
+                        <p className="font-black text-xxs uppercase tracking-tight text-brand-text">{item.n}</p>
+                        <p className="text-[8px] font-bold uppercase opacity-40">{item.c}</p>
                      </td>
-                     <td className="py-6 font-black text-lg tracking-tighter">{item.s}</td>
-                     <td className="py-6">
-                        <p className="text-[10px] font-black">Buy:</p>
-                        <p className="text-[10px] font-bold opacity-30">{item.p}</p>
+                     <td className="py-3">
+                        <div className="flex items-center gap-1.5">
+                           <span className="font-black text-xs tracking-tight">{item.s}</span>
+                           <span className={`text-[7px] font-black px-1 rounded uppercase ${
+                             item.status === 'CRITICAL LOW' ? 'bg-red-100 text-red-700 animate-pulse' : 'bg-emerald-100 text-emerald-700'
+                           }`}>
+                             {item.status}
+                           </span>
+                        </div>
                      </td>
-                     <td className="py-6">
-                        <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                           <button className="px-3 py-1 bg-green-100 text-green-600 text-[8px] font-black rounded uppercase">Stock In</button>
-                           <button className="px-3 py-1 bg-red-100 text-red-600 text-[8px] font-black rounded uppercase">Stock Out</button>
+                     <td className="py-3">
+                        <p className="text-xxs font-bold text-[#183656]">{item.daysLeft}</p>
+                        <p className="text-[7.5px] font-black text-orange-500 uppercase">{item.waste} shrinkage</p>
+                     </td>
+                     <td className="py-3">
+                        <div className="flex justify-between items-center pr-2">
+                           <div>
+                              <p className="text-[9px] font-black">{item.p}</p>
+                              <p className={`text-[7px] font-bold ${item.trend.includes('down') ? 'text-emerald-600' : 'text-orange-500'}`}>{item.trend}</p>
+                           </div>
+                           <div className="opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
+                              {item.status === 'CRITICAL LOW' ? (
+                                <button className="px-2 py-1 bg-brand-primary text-white text-[7.5px] font-black rounded uppercase">
+                                   Auto PO Order (10kg)
+                                </button>
+                              ) : (
+                                <button className="px-2 py-1 bg-gray-100 text-brand-text text-[7.5px] font-black rounded uppercase border hover:bg-gray-200">
+                                   View Audit
+                                </button>
+                              )}
+                           </div>
                         </div>
                      </td>
                   </tr>
@@ -304,62 +556,70 @@ function StaffMockup() {
       exit={{ opacity: 0, scale: 1.05 }}
       className="h-full bg-[#F7F7F7] flex flex-col"
     >
-      <div className="p-8 bg-white border-b flex justify-between items-center">
+      <div className="p-6 bg-white border-b flex justify-between items-center shrink-0">
         <div>
-          <h3 className="text-3xl font-black uppercase tracking-tighter leading-none mb-1">Staff & Salary</h3>
-          <p className="text-[10px] font-bold opacity-40 uppercase tracking-widest">Manage your team, track roles and monthly salaries.</p>
+          <h3 className="text-xl font-black uppercase tracking-tighter leading-none mb-1">Staff, Attendance & Incentives</h3>
+          <p className="text-[10px] font-bold opacity-40 uppercase tracking-widest">Connect waiter performance to dynamic order commission rates</p>
         </div>
-        <button className="bg-black text-white px-8 py-3 rounded-2xl font-black uppercase text-xs flex items-center gap-3">
-           <Plus size={18} /> Add Staff
+        <button className="bg-brand-text text-white px-5 py-2 rounded-xl font-black uppercase text-[10px] flex items-center gap-1.5 hover:bg-brand-primary transition-colors">
+           <Plus size={14} /> Onboard Staff
         </button>
       </div>
 
-      <div className="p-8">
-        <div className="flex gap-3 mb-10">
-           {['Directory', 'Attendance', 'Salary'].map((t, i) => (
-             <button key={t} className={`px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest ${i === 0 ? 'bg-black text-white' : 'border-2 border-gray-100'}`}>
+      <div className="p-6 flex-1 overflow-y-auto">
+        <div className="flex gap-2 mb-4">
+           {['Team Directory', 'Live Attendance', 'Sales Payout & Commission'].map((t, i) => (
+             <button key={t} className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-tight transition-colors ${i === 0 ? 'bg-brand-text text-white' : 'border border-gray-200 text-gray-500 hover:bg-gray-100'}`}>
                 {t}
              </button>
            ))}
         </div>
 
-        <div className="grid grid-cols-2 gap-6 mb-10">
-           <div className="bg-white p-8 rounded-[40px] border shadow-sm">
-              <div className="flex items-center gap-4 mb-4">
-                 <CreditCard className="text-orange-500" size={20} />
-                 <p className="text-[10px] font-black uppercase opacity-40">Monthly Payroll</p>
+        <div className="grid grid-cols-2 gap-4 mb-4 shrink-0">
+           <div className="bg-white p-4 rounded-xl border border-brand-text/5 shadow-xs">
+              <div className="flex items-center gap-2 mb-2 text-brand-primary">
+                 <CreditCard size={14} />
+                 <p className="text-[9px] font-black uppercase opacity-60">Total Active payroll</p>
               </div>
-              <p className="text-4xl font-black tracking-tighter">₹5,000.00</p>
+              <p className="text-xl font-black tracking-tight">₹48,500.00 / mo</p>
+              <p className="text-[8px] text-gray-400 font-bold uppercase mt-1">Next pay run: June 1st</p>
            </div>
-           <div className="bg-white p-8 rounded-[40px] border shadow-sm">
-              <div className="flex items-center gap-4 mb-4">
-                 <Users className="text-orange-500" size={20} />
-                 <p className="text-[10px] font-black uppercase opacity-40">Active Team</p>
+           
+           <div className="bg-white p-4 rounded-xl border border-brand-text/5 shadow-xs">
+              <div className="flex items-center gap-2 mb-2 text-emerald-600">
+                 <Users size={14} />
+                 <p className="text-[9px] font-black uppercase opacity-60">Performance Incentives</p>
               </div>
-              <p className="text-4xl font-black tracking-tighter">1 Members</p>
+              <p className="text-xl font-black tracking-tight text-emerald-600">₹4,250.00 distributed</p>
+              <p className="text-[8px] text-emerald-700 font-black uppercase mt-1">📈 Waiter commissions set at 0.5%</p>
            </div>
         </div>
 
         <motion.div 
-           whileHover={{ y: -4 }}
-           className="bg-white p-10 rounded-[40px] border shadow-sm flex items-center justify-between"
-        >
-           <div className="flex items-center gap-8">
-              <div className="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center text-4xl font-black opacity-40">A</div>
+           whileHover={{ y: -2 }}
+           className="bg-white p-5 rounded-2xl border border-brand-text/5 shadow-xs flex items-center justify-between"
+         >
+           <div className="flex items-center gap-4">
+              <div className="w-14 h-14 bg-brand-primary/10 rounded-full flex items-center justify-center text-xl font-black text-brand-primary border-2 border-brand-primary/20 shrink-0">A</div>
               <div>
-                 <h4 className="text-2xl font-black uppercase mb-1">Anvesha</h4>
-                 <p className="text-xs font-black text-orange-500 uppercase tracking-widest">Chef</p>
+                 <div className="flex items-center gap-2">
+                   <h4 className="text-sm font-black uppercase text-brand-text leading-tight">Anvesha Roy</h4>
+                   <span className="text-[8px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-black uppercase">
+                     Present (Check-in 9:15 AM)
+                   </span>
+                 </div>
+                 <p className="text-[9px] font-black text-[#183656] uppercase tracking-wider mt-0.5">Head Chef • Kitchen Admin</p>
                  
-                 <div className="mt-6 flex flex-col gap-1 text-[10px] font-bold opacity-40">
-                    <p>✆ 7891234567</p>
-                    <p>✉ No email registered</p>
+                 <div className="mt-3 flex items-center gap-4 text-[8.5px] font-bold opacity-45">
+                    <span>✆ 7891234567</span>
+                    <span>✉ Verified Chef Profile</span>
                  </div>
               </div>
            </div>
            <div className="text-right">
-              <p className="text-[10px] font-black uppercase opacity-40 mb-2">Monthly Salary</p>
-              <p className="text-3xl font-black">₹5,000.00</p>
-              <p className="text-[8px] font-black opacity-30 uppercase mt-4">Joined 18/04/2026</p>
+              <p className="text-[9px] font-black uppercase opacity-40 mb-1">Head Chef base salary</p>
+              <p className="text-lg font-black text-brand-text">₹35,000.00</p>
+              <p className="text-[8px] font-bold text-emerald-600 uppercase mt-1">No advance loans pending</p>
            </div>
         </motion.div>
       </div>

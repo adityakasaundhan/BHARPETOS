@@ -8,6 +8,8 @@ import ProductGrid from "./components/ProductGrid";
 import { CategoryDivider, Pricing, HinglishMarquee } from "./components/PricingSections";
 import Footer from "./components/Footer";
 import BackgroundBlobs from "./components/BackgroundBlobs";
+import ServiceChecklist from "./components/ServiceChecklist";
+import PhotoScanFeature from "./components/PhotoScanFeature";
 
 import CampaignSection from "./components/CampaignSection";
 import DashboardMockup from "./components/DashboardMockup";
@@ -82,6 +84,8 @@ export default function App() {
         
         <Features />
         
+        <PhotoScanFeature />
+        
         <div className="bg-brand-text py-1 border-y-4 border-brand-primary/20">
           <HinglishMarquee />
         </div>
@@ -91,6 +95,8 @@ export default function App() {
         <CategoryDivider text="FUTURE OF DINING" />
         
         <CampaignSection />
+        
+        <ServiceChecklist />
         
         <Pricing />
         

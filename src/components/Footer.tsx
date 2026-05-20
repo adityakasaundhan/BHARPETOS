@@ -8,9 +8,9 @@ export default function Footer() {
           <div className="max-w-sm">
             <h3 className="text-4xl font-display mb-4">BHARPETOS®</h3>
             <p className="text-lg opacity-60 mb-8">
-              "BharpetOS — रेस्टोरेंट का पूरा हिसाब, एक ही किताब।" <br />
-              The next-generation operating system for the modern restaurant. 
-              Designed for speed. Born in Fatehpur.
+              “Billing se lekar profit tak, restaurant ka complete control system.” <br />
+              The next-generation operating system for the modern restaurant. <br />
+              <span className="text-xs font-black uppercase tracking-widest text-brand-primary mt-4 block">Powered by Forge Eternal Tech</span>
             </p>
             <div className="p-6 border-2 border-brand-bg/20 bg-brand-bg/5 hover:border-brand-primary transition-colors">
               <p className="text-xs font-black uppercase tracking-widest text-brand-highlight mb-4">Crafted By</p>

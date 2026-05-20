@@ -67,11 +67,11 @@ export default function Hero() {
 
         <motion.div 
           variants={item}
-          className="mt-10 max-w-md"
+          className="mt-10 max-w-lg"
         >
           <p className="text-lg md:text-xl font-medium leading-tight opacity-80">
-            मुनाफे की चाबी — BharpetOS। <br />
-            The only brutalist SaaS dashboard designed to keep your kitchen running at lightspeed while you maximize every single plate of profit.
+            “Billing se lekar profit tak, restaurant ka complete control system.” <br />
+            Designed to keep your kitchen running at lightspeed while you maximize every single plate of profit.
           </p>
         </motion.div>
 

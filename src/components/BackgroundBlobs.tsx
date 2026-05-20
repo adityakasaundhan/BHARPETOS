@@ -1,9 +1,78 @@
 import { motion } from "motion/react";
-import { Utensils } from "lucide-react";
+
+const ForkIcon = ({ color, size }: { color: string; size: number }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke={color} 
+    strokeWidth="1.2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    className="w-full h-full"
+    style={{ opacity: 0.12, filter: `drop-shadow(0px 8px 16px ${color}15)` }}
+  >
+    <path d="M18 8V2" />
+    <path d="M14 8V2" />
+    <path d="M10 8V2" />
+    <path d="M6 8V2" />
+    <path d="M6 8a6 6 0 0 0 12 0" />
+    <path d="M12 14v8" />
+  </svg>
+);
+
+const KnifeIcon = ({ color, size }: { color: string; size: number }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke={color} 
+    strokeWidth="1.2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    className="w-full h-full"
+    style={{ opacity: 0.12, filter: `drop-shadow(0px 8px 16px ${color}15)` }}
+  >
+    <path d="M6 2c2 0 4 3 4 8v4H6V2z" />
+    <path d="M8 14v8" />
+  </svg>
+);
+
+const SpoonIcon = ({ color, size }: { color: string; size: number }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke={color} 
+    strokeWidth="1.2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    className="w-full h-full"
+    style={{ opacity: 0.12, filter: `drop-shadow(0px 8px 16px ${color}15)` }}
+  >
+    <path d="M17 10C17 13 14 15 10 15C6 15 3 13 3 10C3 7 6 5 10 5C14 5 17 7 17 10Z" />
+    <path d="M13.5 13.5L21 21" />
+  </svg>
+);
+
+const UTENSILS_LIST = [
+  { id: "f1", type: "fork", top: "12%", left: "8%", color: "#FF89A9", size: 110, duration: 18 },
+  { id: "s1", type: "spoon", top: "18%", left: "75%", color: "#FFC245", size: 130, duration: 22 },
+  { id: "k1", type: "knife", top: "38%", left: "14%", color: "#00E5FF", size: 120, duration: 20 },
+  { id: "f2", type: "fork", top: "55%", left: "80%", color: "#9D4EDD", size: 140, duration: 24 },
+  { id: "s2", type: "spoon", top: "70%", left: "10%", color: "#52B788", size: 100, duration: 17 },
+  { id: "k2", type: "knife", top: "80%", left: "72%", color: "#E76F51", size: 125, duration: 21 },
+  { id: "f3", type: "fork", top: "30%", left: "42%", color: "#FF5E7E", size: 95, duration: 23 },
+  { id: "s3", type: "spoon", top: "62%", left: "45%", color: "#38A3A5", size: 105, duration: 19 },
+];
 
 export default function BackgroundBlobs() {
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+      {/* Dynamic Background Blurs */}
       <motion.div
         animate={{
           x: [0, 100, 0],
@@ -15,7 +84,7 @@ export default function BackgroundBlobs() {
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="absolute -top-[10%] -left-[10%] w-[60vw] h-[60vw] rounded-full bg-brand-primary blur-[140px]"
+        className="absolute -top-[10%] -left-[10%] w-[60vw] h-[60vw] rounded-full bg-brand-primary/80 blur-[140px]"
       />
       <motion.div
         animate={{
@@ -28,7 +97,7 @@ export default function BackgroundBlobs() {
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="absolute top-[40%] -right-[15%] w-[55vw] h-[55vw] rounded-full bg-brand-energy blur-[140px]"
+        className="absolute top-[40%] -right-[15%] w-[55vw] h-[55vw] rounded-full bg-brand-energy/80 blur-[140px]"
       />
       <motion.div
         animate={{
@@ -41,7 +110,7 @@ export default function BackgroundBlobs() {
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="absolute -bottom-[20%] left-[10%] w-[50vw] h-[50vw] rounded-full bg-brand-highlight blur-[140px]"
+        className="absolute -bottom-[20%] left-[10%] w-[50vw] h-[50vw] rounded-full bg-brand-highlight/75 blur-[140px]"
       />
 
       {/* Intelligence Grid & Scanning Line */}
@@ -86,56 +155,34 @@ export default function BackgroundBlobs() {
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] aspect-square rounded-full border border-brand-primary/10 pointer-events-none"
       />
 
-      {/* Floating Utensils Icons (Colored) */}
-      <motion.div
-        animate={{
-          rotate: [0, 360],
-          scale: [1, 1.2, 1],
-          y: [0, -20, 0],
-          x: [0, 10, 0],
-        }}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-        className="absolute top-[20%] left-[15%] opacity-10 text-brand-primary"
-      >
-        <Utensils size={120} strokeWidth={1} />
-      </motion.div>
-
-      <motion.div
-        animate={{
-          rotate: [0, -360],
-          scale: [1, 1.1, 1],
-          y: [0, 30, 0],
-          x: [0, -15, 0],
-        }}
-        transition={{
-          duration: 25,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-        className="absolute bottom-[30%] right-[10%] opacity-10 text-brand-energy"
-      >
-        <Utensils size={180} strokeWidth={1} />
-      </motion.div>
-
-      <motion.div
-        animate={{
-          rotate: [45, 405],
-          scale: [0.8, 1, 0.8],
-          opacity: [0.05, 0.1, 0.05],
-        }}
-        transition={{
-          duration: 30,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-        className="absolute top-[60%] left-[40%] opacity-5 text-brand-highlight"
-      >
-        <Utensils size={150} strokeWidth={1} />
-      </motion.div>
+      {/* Floating Rotating Multi-Color Utensils (Knives, Forks, Spoons rotating 180 degrees slowly) */}
+      {UTENSILS_LIST.map((item) => (
+        <motion.div
+          key={item.id}
+          animate={{
+            rotate: [0, 180],
+            y: [0, -25, 0],
+            x: [0, 15, 0],
+          }}
+          transition={{
+            duration: item.duration,
+            repeat: Infinity,
+            repeatType: "mirror",
+            ease: "easeInOut",
+          }}
+          style={{
+            top: item.top,
+            left: item.left,
+            width: item.size,
+            height: item.size,
+          }}
+          className="absolute pointer-events-none flex items-center justify-center"
+        >
+          {item.type === "fork" && <ForkIcon color={item.color} size={item.size} />}
+          {item.type === "knife" && <KnifeIcon color={item.color} size={item.size} />}
+          {item.type === "spoon" && <SpoonIcon color={item.color} size={item.size} />}
+        </motion.div>
+      ))}
     </div>
   );
 }

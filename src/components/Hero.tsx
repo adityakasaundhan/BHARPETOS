@@ -58,9 +58,15 @@ export default function Hero() {
             </h1>
           </motion.div>
 
-          <motion.div variants={item} className="overflow-hidden">
-            <h1 className="text-[12vw] lg:text-[110px] leading-[0.82] text-brand-primary">
-              NOT अफरातफरी CONFUSION.
+          <motion.div variants={item} className="overflow-visible pt-4 pb-2">
+            <h1 className="text-[12vw] lg:text-[110px] leading-[1.1] text-brand-primary font-bold">
+              NOT अफरातफरी
+            </h1>
+          </motion.div>
+
+          <motion.div variants={item} className="overflow-visible">
+            <h1 className="text-[12vw] lg:text-[110px] leading-[0.85] text-brand-primary pt-2">
+              CONFUSION.
             </h1>
           </motion.div>
         </div>

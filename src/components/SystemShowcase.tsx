@@ -11,7 +11,19 @@ import {
   ShoppingCart,
   Clock,
   CheckCircle2,
-  Activity
+  Activity,
+  AlertTriangle,
+  GlassWater,
+  Beer,
+  Droplet,
+  Trash2,
+  Edit3,
+  RotateCcw,
+  ArrowDownRight,
+  Filter,
+  DollarSign,
+  SlidersHorizontal,
+  Box
 } from "lucide-react";
 
 const MODULES = [
@@ -76,7 +88,7 @@ export default function SystemShowcase() {
   );
 }
 
-import { TrendingUp, Sparkles, Receipt, Trash2, HelpCircle } from "lucide-react";
+import { TrendingUp, Sparkles, Receipt, HelpCircle } from "lucide-react";
 
 interface CartItem {
   id: string;
@@ -439,6 +451,8 @@ function KitchenMockup() {
 }
 
 function InventoryMockup() {
+  const [invTab, setInvTab] = useState<'food' | 'bar'>('bar');
+
   return (
     <motion.div 
       initial={{ opacity: 0, x: 20 }}
@@ -448,127 +462,326 @@ function InventoryMockup() {
     >
       <div className="p-4 md:p-6 border-b flex flex-col sm:flex-row gap-3 justify-between items-start sm:items-center shrink-0">
         <div>
-          <h3 className="text-sm md:text-xl font-black uppercase tracking-tighter">AI Inventory Consumption Core</h3>
-          <p className="text-[8.5px] md:text-[10px] font-bold opacity-40 uppercase tracking-wider">Auto stock depletion based on POS & Waiter recipe billing</p>
+          <h3 className="text-sm md:text-xl font-black uppercase tracking-tighter">Inventory Management</h3>
+          <p className="text-[8.5px] md:text-[10px] font-bold opacity-40 uppercase tracking-wider">Track your stock levels, batches, and ingredients.</p>
         </div>
-        <button className="bg-brand-text text-white px-4 py-1.5 rounded-xl font-black uppercase text-[9px] md:text-[10px] flex items-center gap-1.5 hover:bg-brand-primary transition-colors cursor-pointer shrink-0 self-end sm:self-auto">
-           <Plus size={13} /> Manual Inward Adjust
-        </button>
+        <div className="flex bg-gray-100 p-1 rounded-xl w-fit shrink-0 self-end sm:self-auto">
+          <button
+            onClick={() => setInvTab('food')}
+            className={`px-3 py-1.5 rounded-lg text-[8px] md:text-[9px] font-black uppercase tracking-wider transition-all cursor-pointer ${
+              invTab === 'food' ? 'bg-white shadow-sm text-brand-text' : 'text-gray-400 hover:text-gray-600'
+            }`}
+          >
+            Raw Material Food
+          </button>
+          <button
+            onClick={() => setInvTab('bar')}
+            className={`px-3 py-1.5 rounded-lg text-[8px] md:text-[9px] font-black uppercase tracking-wider transition-all cursor-pointer ${
+              invTab === 'bar' ? 'bg-black text-white shadow-sm' : 'text-gray-400 hover:text-gray-600'
+            }`}
+          >
+            Bar Inventory
+          </button>
+        </div>
       </div>
 
-      {/* High-level stock alerts */}
-      <div className="px-4 md:px-6 pt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 shrink-0">
-         <div className="p-2.5 bg-gray-50 rounded-xl border border-gray-100 flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-white rounded-lg shadow-sm flex items-center justify-center text-brand-primary shrink-0"><Package size={15} /></div>
-            <div>
-               <p className="text-[7.5px] font-black uppercase opacity-40">Total Raw Goods</p>
-               <p className="text-sm md:text-md font-black leading-none">42 Items</p>
-            </div>
-         </div>
-         <div className="p-2.5 bg-red-50 rounded-xl border border-red-100 flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-white rounded-lg shadow-sm flex items-center justify-center text-red-500 shrink-0"><Activity size={15} /></div>
-            <div>
-               <p className="text-[7.5px] font-black uppercase opacity-40 text-red-500">Below Safety Limit</p>
-               <p className="text-sm md:text-md font-black text-red-500 leading-none">1 Alert</p>
-            </div>
-         </div>
-         <div className="p-2.5 bg-emerald-50 rounded-xl border border-emerald-100 flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-white rounded-lg shadow-sm flex items-center justify-center text-emerald-600 shrink-0"><CheckCircle2 size={15} /></div>
-            <div>
-               <p className="text-[7.5px] font-black uppercase opacity-40 text-emerald-600">Avg Food Waste Avoided</p>
-               <p className="text-sm md:text-md font-black text-emerald-600 leading-none">14.2% / mo</p>
-            </div>
-         </div>
-      </div>
-
-      <div className="px-4 md:px-6 flex-1 overflow-auto mt-4 pb-8">
-         <div className="min-w-[620px] md:min-w-0">
-           <table className="w-full text-left">
-              <thead className="border-b bg-gray-50/50">
-                 <tr>
-                    <th className="py-2 px-1 text-[8px] md:text-[8.5px] font-black uppercase opacity-45">Ingredient Name & Class</th>
-                    <th className="py-2 px-1 text-[8px] md:text-[8.5px] font-black uppercase opacity-45">Current Stock Level</th>
-                    <th className="py-2 px-1 text-[8px] md:text-[8.5px] font-black uppercase opacity-45">Predicted depletion</th>
-                    <th className="py-2 px-1 text-[8px] md:text-[8.5px] font-black uppercase opacity-45">Cost Trend & actions</th>
-                 </tr>
-              </thead>
-              <tbody className="divide-y text-brand-text">
-                 {[
-                   { 
-                     n: 'FRESH PANNER (A-GRADE)', 
-                     c: 'Masala & Dairy', 
-                     s: '4.8 kg', 
-                     status: 'CRITICAL LOW',
-                     daysLeft: '0.8 Days Remaining',
-                     waste: '2.1% loss', 
-                     p: '₹320.00/kg',
-                     trend: 'Rate stable (0.0%)'
-                   },
-                   { 
-                     n: 'KASHMIRI MIRCH POWDER', 
-                     c: 'Masala / Spices', 
-                     s: '12.4 kg', 
-                     status: 'HEALTHY',
-                     daysLeft: '22 Days Remaining',
-                     waste: '0.5% loss', 
-                     p: '₹480.00/kg',
-                     trend: 'Rate down -3.2% ↓'
-                   },
-                   { 
-                     n: 'DESI GHEE (VERKA BRAND)', 
-                     c: 'Commercial Cooking fats', 
-                     s: '18.1 Ltr', 
-                     status: 'HEALTHY',
-                     daysLeft: '11 Days Remaining',
-                     waste: '1.2% loss', 
-                     p: '₹680/Ltr',
-                     trend: 'Price Alert: High (+4.5% ↑)'
-                   }
-                 ].map((item, i) => (
-                    <tr key={i} className="group hover:bg-gray-50/70 transition-colors">
-                       <td className="py-2.5 px-1">
-                          <p className="font-black text-xxs uppercase tracking-tight text-brand-text">{item.n}</p>
-                          <p className="text-[7.5px] font-bold uppercase opacity-40">{item.c}</p>
-                       </td>
-                       <td className="py-2.5 px-1">
-                          <div className="flex items-center gap-1.5">
-                             <span className="font-black text-xs tracking-tight">{item.s}</span>
-                             <span className={`text-[7px] font-black px-1 rounded uppercase ${
-                               item.status === 'CRITICAL LOW' ? 'bg-red-100 text-red-700 animate-pulse' : 'bg-emerald-100 text-emerald-700'
-                             }`}>
-                               {item.status}
-                             </span>
-                          </div>
-                       </td>
-                       <td className="py-2.5 px-1">
-                          <p className="text-xxs font-bold text-[#183656]">{item.daysLeft}</p>
-                          <p className="text-[7.5px] font-black text-orange-500 uppercase">{item.waste} shrinkage</p>
-                       </td>
-                       <td className="py-2.5 px-1">
-                          <div className="flex justify-between items-center pr-2">
-                             <div>
-                                <p className="text-[9px] font-black">{item.p}</p>
-                                <p className={`text-[7px] font-bold ${item.trend.includes('down') ? 'text-emerald-600' : 'text-orange-500'}`}>{item.trend}</p>
-                             </div>
-                             <div className="opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
-                                {item.status === 'CRITICAL LOW' ? (
-                                  <button className="px-2 py-1 bg-brand-primary text-white text-[7.5px] font-black rounded uppercase cursor-pointer">
-                                     Auto PO
-                                  </button>
-                                ) : (
-                                  <button className="px-2 py-1 bg-gray-100 text-brand-text text-[7.5px] font-black rounded uppercase border hover:bg-gray-200 cursor-pointer">
-                                     Audit
-                                  </button>
-                                )}
-                             </div>
-                          </div>
-                       </td>
-                    </tr>
-                 ))}
-              </tbody>
-           </table>
+      {invTab === 'bar' ? (
+        <div className="flex-1 overflow-auto bg-[#F9F9F9] p-4 md:p-6">
+          {/* KPI Cards */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6 shrink-0">
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center text-left">
+              <div>
+                <p className="text-[7.5px] font-black uppercase opacity-40 mb-1">Total Stock Value</p>
+                <p className="text-sm md:text-lg font-black">₹2,19,500</p>
               </div>
-      </div>
+              <div className="w-8 h-8 md:w-10 md:h-10 bg-orange-50 text-orange-500 rounded-xl flex items-center justify-center shrink-0">
+                 <DollarSign size={16} />
+              </div>
+            </motion.div>
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center text-left">
+              <div>
+                <p className="text-[7.5px] font-black uppercase opacity-40 mb-1">Bottles in Stock</p>
+                <p className="text-sm md:text-lg font-black tracking-tight">783.2 <span className="text-[10px]">Btls</span></p>
+              </div>
+              <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center shrink-0">
+                 <Box size={16} />
+              </div>
+            </motion.div>
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="bg-white p-4 rounded-2xl shadow-sm border border-red-100 flex justify-between items-center text-left">
+              <div>
+                <p className="text-[7.5px] font-black uppercase opacity-40 text-red-500 mb-1">Critical Warnings</p>
+                <p className="text-sm md:text-lg font-black text-red-500 tracking-tight">1 <span className="text-[10px]">Items Low</span></p>
+              </div>
+              <div className="w-8 h-8 md:w-10 md:h-10 bg-red-50 text-red-500 rounded-xl flex items-center justify-center shrink-0">
+                 <AlertTriangle size={16} />
+              </div>
+            </motion.div>
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center text-left">
+              <div>
+                <p className="text-[7.5px] font-black uppercase opacity-40 mb-1">Out of Stock</p>
+                <p className="text-sm md:text-lg font-black tracking-tight">0 <span className="text-[10px]">Products</span></p>
+              </div>
+              <div className="w-8 h-8 md:w-10 md:h-10 bg-yellow-50 text-yellow-600 rounded-xl flex items-center justify-center shrink-0">
+                 <SlidersHorizontal size={16} />
+              </div>
+            </motion.div>
+          </div>
+          
+          {/* Sub Navigation */}
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4 shrink-0">
+             <div className="flex gap-4 border-b border-gray-200 text-[8.5px] md:text-[9.5px] font-black uppercase tracking-widest w-full md:w-auto overflow-x-auto">
+               <button className="py-2 border-b-2 border-brand-text text-brand-text whitespace-nowrap cursor-pointer">Liquid Management</button>
+               <button className="py-2 border-b-2 border-transparent text-gray-400 hover:text-gray-600 whitespace-nowrap cursor-pointer">Insights & Analytics</button>
+               <button className="py-2 border-b-2 border-transparent text-gray-400 hover:text-gray-600 whitespace-nowrap cursor-pointer">Complete Audit Log</button>
+             </div>
+             <button className="bg-[#ECA825] text-white px-4 py-2 rounded-xl font-black text-[9px] uppercase flex items-center gap-1.5 hover:bg-opacity-90 shadow-lg shadow-orange-500/20 shrink-0 cursor-pointer self-end md:self-auto">
+               <Plus size={14} /> New Bar Product
+             </button>
+          </div>
+          
+          {/* Filters */}
+          <div className="flex flex-col sm:flex-row gap-3 mb-6 shrink-0">
+             <div className="flex-1 bg-white border border-gray-200 rounded-xl flex items-center px-3 py-2 shadow-sm min-w-0">
+               <Search size={14} className="text-gray-400 shrink-0" />
+               <input type="text" placeholder="Search brand, category, mixers..." className="w-full text-xs font-bold outline-none px-2 bg-transparent truncate" />
+             </div>
+             <div className="flex flex-wrap gap-2 shrink-0">
+               <button className="bg-white border border-gray-200 px-3 py-2 rounded-xl flex items-center gap-2 text-[9px] font-black uppercase shadow-sm cursor-pointer">
+                 All Categories <Filter size={12} />
+               </button>
+               <div className="bg-white border border-gray-200 rounded-xl p-1 flex items-center shadow-sm">
+                 <button className="bg-black text-white px-3 py-1 text-[9px] font-black uppercase rounded-lg cursor-pointer">All</button>
+                 <button className="text-gray-500 px-3 py-1 text-[9px] font-black uppercase hover:text-gray-700 cursor-pointer">Healthy</button>
+                 <button className="text-gray-500 px-3 py-1 text-[9px] font-black uppercase hover:text-gray-700 cursor-pointer">Low</button>
+               </div>
+             </div>
+          </div>
+
+          {/* Product Cards Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+             {[
+               {
+                 cat: 'WINES',
+                 name: "JACOB'S CREEK, Chardonnay Cabernet",
+                 status: 'LOW STOCK',
+                 costMl: '₹2.67/ML',
+                 stockQty: '4.0',
+                 stockDesc: '4F + 0ml',
+                 volume: '3,000',
+                 size: '750 ML',
+                 netValue: '8,000',
+                 min: 5,
+                 current: 4,
+                 cap: 10,
+                 color: 'orange'
+               },
+               {
+                 cat: 'BEERS',
+                 name: 'KINGFISHER ULTRA MAX',
+                 status: 'HEALTHY',
+                 costMl: '₹0.35/ML',
+                 stockQty: '522.8',
+                 stockDesc: '522F + 500ml',
+                 volume: '339,800',
+                 size: '650 ML',
+                 netValue: '1,43,360',
+                 min: 170,
+                 current: 522.8,
+                 cap: 800,
+                 color: 'emerald'
+               }
+             ].map((item, i) => (
+               <motion.div 
+                 key={i}
+                 initial={{ opacity: 0, y: 10 }}
+                 animate={{ opacity: 1, y: 0 }}
+                 transition={{ delay: 0.4 + (i * 0.1) }}
+                 className="bg-white border-2 border-gray-100 rounded-2xl p-4 md:p-5 shadow-sm hover:shadow-md transition-all group"
+               >
+                  <div className="flex justify-between items-start mb-4">
+                     <div>
+                        <span className="text-[8px] md:text-[9px] font-black text-gray-400 tracking-widest uppercase mb-1 block">{item.cat}</span>
+                        <h4 className="text-xs md:text-sm font-black uppercase text-brand-text leading-tight">{item.name}</h4>
+                     </div>
+                     <div className="text-right shrink-0">
+                        <span className={`inline-block px-2 py-0.5 md:py-1 rounded text-[7px] md:text-[8px] font-black uppercase mb-1 ${item.status === 'LOW STOCK' ? 'bg-orange-100 text-orange-700' : 'bg-emerald-100 text-emerald-700'}`}>{item.status}</span>
+                        <p className="text-[7.5px] md:text-[8px] text-gray-400 font-bold uppercase tracking-wider block">Bottle Cost</p>
+                        <p className="text-[8.5px] md:text-[9px] font-black text-emerald-600">{item.costMl}</p>
+                     </div>
+                  </div>
+
+                  <div className="flex justify-between bg-gray-50/50 rounded-xl p-2.5 md:p-3 border border-gray-100 mb-4">
+                     <div className="text-center w-1/3">
+                       <p className="text-[7.5px] md:text-[8px] font-black text-gray-400 uppercase tracking-wider mb-1">Stock Qty</p>
+                       <p className="text-xs md:text-sm font-black"><span className="text-sm md:text-base">{item.stockQty}</span> Btls</p>
+                       <p className="text-[7.5px] md:text-[8px] text-gray-500 font-bold">{item.stockDesc}</p>
+                     </div>
+                     <div className="text-center w-1/3 border-l border-r border-gray-200 px-2 md:px-4 flex flex-col justify-center">
+                       <p className="text-[7.5px] md:text-[8px] font-black text-gray-400 uppercase tracking-wider mb-1">Volume</p>
+                       <p className="text-xs md:text-sm font-black text-orange-500"><span className="text-sm md:text-base">{item.volume}</span> ML</p>
+                       <p className="text-[7.5px] md:text-[8px] text-gray-500 font-bold">Size: {item.size}</p>
+                     </div>
+                     <div className="text-center w-1/3">
+                       <p className="text-[7.5px] md:text-[8px] font-black text-gray-400 uppercase tracking-wider mb-1">Net Value</p>
+                       <p className="text-xs md:text-sm font-black text-emerald-600"><span className="text-sm md:text-base">₹{item.netValue}</span></p>
+                       <p className="text-[7.5px] md:text-[8px] text-gray-500 font-bold">Valuation</p>
+                     </div>
+                  </div>
+
+                  <div className="mb-4">
+                    <div className="flex justify-between text-[7.5px] md:text-[8px] font-black mb-1.5 opacity-60">
+                      <span>Stock Level</span>
+                      <span>Min: {item.min} Btls ({item.min * 750}ml)</span>
+                    </div>
+                    <div className="h-2 md:h-2.5 w-full bg-gray-100 border border-gray-200 rounded-full overflow-hidden">
+                       <motion.div 
+                          initial={{ width: 0 }}
+                          animate={{ width: `${(item.current / item.cap) * 100}%` }}
+                          transition={{ duration: 1, ease: 'easeOut', delay: 0.6 }}
+                          className={`h-full ${item.color === 'orange' ? 'bg-[#ECA825]' : 'bg-emerald-500'}`} 
+                       />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 mb-3">
+                     <button className="flex justify-center items-center gap-1.5 border border-gray-200 rounded-xl py-2 text-[8.5px] md:text-[9px] font-black uppercase text-brand-text hover:bg-gray-50 transition-colors cursor-pointer">
+                       <Plus size={11} /> Restock
+                     </button>
+                     <button className="flex justify-center items-center gap-1.5 border border-gray-200 rounded-xl py-2 text-[8.5px] md:text-[9px] font-black uppercase text-brand-text hover:bg-gray-50 transition-colors cursor-pointer">
+                       <ArrowDownRight size={11} /> Spill/Waste
+                     </button>
+                  </div>
+
+                  <div className="flex justify-between items-center mt-2 pt-3 border-t border-gray-100">
+                     <button className="flex items-center gap-1.5 text-[8.5px] md:text-[9px] font-black text-gray-400 hover:text-brand-text uppercase transition-colors cursor-pointer">
+                       <RotateCcw size={10} /> Audit Reset
+                     </button>
+                     <div className="flex gap-3 text-gray-400">
+                       <button className="hover:text-brand-primary transition-colors py-1 cursor-pointer"><Edit3 size={12} /></button>
+                       <button className="hover:text-red-500 transition-colors py-1 cursor-pointer"><Trash2 size={12} /></button>
+                     </div>
+                  </div>
+               </motion.div>
+             ))}
+          </div>
+        </div>
+      ) : (
+        <div className="flex-1 overflow-auto flex flex-col">
+          {/* High-level stock alerts */}
+          <div className="px-4 md:px-6 pt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 shrink-0">
+             <div className="p-2.5 bg-gray-50 rounded-xl border border-gray-100 flex items-center gap-2.5">
+                <div className="w-8 h-8 bg-white rounded-lg shadow-sm flex items-center justify-center text-brand-primary shrink-0"><Package size={15} /></div>
+                <div>
+                   <p className="text-[7.5px] font-black uppercase opacity-40">Total Raw Goods</p>
+                   <p className="text-sm md:text-md font-black leading-none">42 Items</p>
+                </div>
+             </div>
+             <div className="p-2.5 bg-red-50 rounded-xl border border-red-100 flex items-center gap-2.5">
+                <div className="w-8 h-8 bg-white rounded-lg shadow-sm flex items-center justify-center text-red-500 shrink-0"><Activity size={15} /></div>
+                <div>
+                   <p className="text-[7.5px] font-black uppercase opacity-40 text-red-500">Below Safety Limit</p>
+                   <p className="text-sm md:text-md font-black text-red-500 leading-none">1 Alert</p>
+                </div>
+             </div>
+             <div className="p-2.5 bg-emerald-50 rounded-xl border border-emerald-100 flex items-center gap-2.5">
+                <div className="w-8 h-8 bg-white rounded-lg shadow-sm flex items-center justify-center text-emerald-600 shrink-0"><CheckCircle2 size={15} /></div>
+                <div>
+                   <p className="text-[7.5px] font-black uppercase opacity-40 text-emerald-600">Avg Food Waste Avoided</p>
+                   <p className="text-sm md:text-md font-black text-emerald-600 leading-none">14.2% / mo</p>
+                </div>
+             </div>
+          </div>
+
+          <div className="px-4 md:px-6 flex-1 overflow-auto mt-4 pb-8">
+             <div className="min-w-[620px] md:min-w-0">
+               <table className="w-full text-left">
+                  <thead className="border-b bg-gray-50/50">
+                     <tr>
+                        <th className="py-2 px-1 text-[8px] md:text-[8.5px] font-black uppercase opacity-45">Ingredient Name & Class</th>
+                        <th className="py-2 px-1 text-[8px] md:text-[8.5px] font-black uppercase opacity-45">Current Stock Level</th>
+                        <th className="py-2 px-1 text-[8px] md:text-[8.5px] font-black uppercase opacity-45">Predicted depletion</th>
+                        <th className="py-2 px-1 text-[8px] md:text-[8.5px] font-black uppercase opacity-45">Cost Trend & actions</th>
+                     </tr>
+                  </thead>
+                  <tbody className="divide-y text-brand-text">
+                     {[
+                       { 
+                         n: 'FRESH PANNER (A-GRADE)', 
+                         c: 'Masala & Dairy', 
+                         s: '4.8 kg', 
+                         status: 'CRITICAL LOW',
+                         daysLeft: '0.8 Days Remaining',
+                         waste: '2.1% loss', 
+                         p: '₹320.00/kg',
+                         trend: 'Rate stable (0.0%)'
+                       },
+                       { 
+                         n: 'KASHMIRI MIRCH POWDER', 
+                         c: 'Masala / Spices', 
+                         s: '12.4 kg', 
+                         status: 'HEALTHY',
+                         daysLeft: '22 Days Remaining',
+                         waste: '0.5% loss', 
+                         p: '₹480.00/kg',
+                         trend: 'Rate down -3.2% ↓'
+                       },
+                       { 
+                         n: 'DESI GHEE (VERKA BRAND)', 
+                         c: 'Commercial Cooking fats', 
+                         s: '18.1 Ltr', 
+                         status: 'HEALTHY',
+                         daysLeft: '11 Days Remaining',
+                         waste: '1.2% loss', 
+                         p: '₹680/Ltr',
+                         trend: 'Price Alert: High (+4.5% ↑)'
+                       }
+                     ].map((item, i) => (
+                        <tr key={i} className="group hover:bg-gray-50/70 transition-colors">
+                           <td className="py-2.5 px-1">
+                              <p className="font-black text-xxs uppercase tracking-tight text-brand-text">{item.n}</p>
+                              <p className="text-[7.5px] font-bold uppercase opacity-40">{item.c}</p>
+                           </td>
+                           <td className="py-2.5 px-1">
+                              <div className="flex items-center gap-1.5">
+                                 <span className="font-black text-xs tracking-tight">{item.s}</span>
+                                 <span className={`text-[7px] font-black px-1 rounded uppercase ${
+                                   item.status === 'CRITICAL LOW' ? 'bg-red-100 text-red-700 animate-pulse' : 'bg-emerald-100 text-emerald-700'
+                                 }`}>
+                                   {item.status}
+                                 </span>
+                              </div>
+                           </td>
+                           <td className="py-2.5 px-1">
+                              <p className="text-xxs font-bold text-[#183656]">{item.daysLeft}</p>
+                              <p className="text-[7.5px] font-black text-orange-500 uppercase">{item.waste} shrinkage</p>
+                           </td>
+                           <td className="py-2.5 px-1">
+                              <div className="flex justify-between items-center pr-2">
+                                 <div>
+                                    <p className="text-[9px] font-black">{item.p}</p>
+                                    <p className={`text-[7px] font-bold ${item.trend.includes('down') ? 'text-emerald-600' : 'text-orange-500'}`}>{item.trend}</p>
+                                 </div>
+                                 <div className="opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
+                                    {item.status === 'CRITICAL LOW' ? (
+                                      <button className="px-2 py-1 bg-brand-primary text-white text-[7.5px] font-black rounded uppercase cursor-pointer">
+                                         Auto PO
+                                      </button>
+                                    ) : (
+                                      <button className="px-2 py-1 bg-gray-100 text-brand-text text-[7.5px] font-black rounded uppercase border hover:bg-gray-200 cursor-pointer">
+                                         Audit
+                                      </button>
+                                    )}
+                                 </div>
+                              </div>
+                           </td>
+                        </tr>
+                     ))}
+                  </tbody>
+               </table>
+             </div>
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 }

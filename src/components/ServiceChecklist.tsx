@@ -37,7 +37,7 @@ const AnimatedTitle = ({ text, className = "" }: { text: string; className?: str
               delay: i * 0.1
             }}
           >
-            {word}
+            <span>{word}</span>
           </motion.span>
         </span>
       ))}
@@ -126,46 +126,29 @@ export default function ServiceChecklist() {
                   <motion.div
                     key={service}
                     variants={cardVariants}
-                    whileHover={{ 
-                      scale: 1.05, 
-                      y: -5,
-                      borderColor: "#DB4A2B",
-                      backgroundColor: isProfitTracking ? "#183656" : "#FFFFFF",
-                      color: isProfitTracking ? "#FFFFFF" : "#1E1E1E",
-                      boxShadow: "0px 10px 20px rgba(30,30,30,0.08)"
-                    }}
-                    className={`flex items-center justify-between p-4 border-2 transition-all cursor-pointer relative overflow-hidden ${
+                    className={`group flex items-center justify-between p-4 border-2 transition-all duration-300 cursor-pointer relative overflow-hidden text-brand-text hover:border-brand-primary hover:-translate-y-1 hover:scale-[1.02] hover:shadow-xl ${
                       isProfitTracking 
-                        ? "border-brand-primary bg-brand-primary/5 shadow-sm" 
-                        : "border-brand-text/10 bg-white"
+                        ? "border-brand-primary bg-brand-primary/5 hover:bg-[#183656] hover:text-white" 
+                        : "border-brand-text/10 bg-white hover:bg-white"
                     }`}
                   >
                     {isProfitTracking && (
-                      <motion.div 
-                        animate={{ opacity: [0.1, 0.25, 0.1] }}
-                        transition={{ duration: 3, repeat: Infinity }}
-                        className="absolute inset-0 bg-brand-primary/10 pointer-events-none"
-                      />
+                      <div className="absolute inset-0 bg-brand-primary/10 pointer-events-none animate-pulse" />
                     )}
 
                     <div className="flex items-center gap-3 relative z-10">
-                      <motion.div
-                        whileHover={{ rotate: 360 }}
-                        transition={{ duration: 0.5 }}
-                      >
+                      <div className="transition-transform duration-500 group-hover:rotate-180">
                         <CheckCircle2 className={isProfitTracking ? "text-brand-energy shrink-0" : "text-brand-primary shrink-0"} size={20} />
-                      </motion.div>
-                      <span className="font-bold text-sm uppercase tracking-tight">{service}</span>
+                      </div>
+                      <span className="font-bold text-sm uppercase tracking-tight"><span>{service}</span></span>
                     </div>
 
                     {isProfitTracking && (
-                      <motion.span 
-                        animate={{ scale: [1, 1.15, 1] }}
-                        transition={{ duration: 1.8, repeat: Infinity }}
-                        className="bg-brand-energy text-brand-text text-[9px] font-black px-2 py-0.5 uppercase tracking-tighter shrink-0 ml-2 rounded"
+                      <span 
+                        className="bg-brand-energy text-brand-text text-[9px] font-black px-2 py-0.5 uppercase tracking-tighter shrink-0 ml-2 rounded animate-pulse"
                       >
                         PROFIT+
-                      </motion.span>
+                      </span>
                     )}
                   </motion.div>
                 );
@@ -205,24 +188,16 @@ export default function ServiceChecklist() {
                   <motion.div
                     key={reason}
                     variants={reasonVariants}
-                    whileHover={{ 
-                      x: -12,
-                      scale: 1.02,
-                      backgroundColor: isSpecial ? "#DB4A2B" : "#1E1E1E",
-                      color: "#FFFFFF",
-                      borderColor: isSpecial ? "#ECA825" : "#1E1E1E",
-                      boxShadow: "12px 12px 0px #1E1E1E"
-                    }}
-                    className={`inline-flex items-center justify-between gap-6 p-6 border-4 border-brand-text w-full cursor-pointer text-left transition-all ${
+                    className={`group inline-flex items-center justify-between gap-6 p-6 border-4 w-full cursor-pointer text-left transition-all duration-300 hover:-translate-x-3 hover:scale-[1.02] hover:shadow-[12px_12px_0px_#1E1E1E] ${
                       isSpecial 
-                        ? "bg-brand-highlight text-brand-text shadow-[8px_8px_0px_#183656]" 
-                        : "bg-brand-energy shadow-[8px_8px_0px_#1E1E1E]"
+                        ? "border-brand-text bg-brand-highlight text-brand-text shadow-[8px_8px_0px_#183656] hover:bg-[#DB4A2B] hover:text-white hover:border-[#ECA825]" 
+                        : "border-brand-text bg-brand-energy shadow-[8px_8px_0px_#1E1E1E] text-brand-text hover:bg-brand-text hover:text-white"
                     }`}
                   >
                     <div className="flex items-center gap-4">
                       {isSpecial && <TrendingUp size={24} className="text-brand-primary animate-bounce shrink-0" />}
                       <span className="text-xl md:text-2xl font-black uppercase tracking-tighter italic">
-                        {reason}
+                        <span>{reason}</span>
                       </span>
                     </div>
 
@@ -232,12 +207,11 @@ export default function ServiceChecklist() {
                           CORE SYSTEM
                         </span>
                       )}
-                      <motion.div 
-                        whileHover={{ scale: 1.2, rotate: 180 }}
-                        className="w-10 h-10 bg-brand-text flex items-center justify-center border-2 border-brand-bg shrink-0"
+                      <div 
+                        className="w-10 h-10 bg-brand-text flex items-center justify-center border-2 border-brand-bg shrink-0 transition-transform duration-300 group-hover:scale-125 group-hover:rotate-180"
                       >
                         <ShieldCheck className="text-brand-energy" size={20} />
-                      </motion.div>
+                      </div>
                     </div>
                   </motion.div>
                 );

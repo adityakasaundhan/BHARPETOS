@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import BackgroundBlobs from "./components/BackgroundBlobs";
 import ServiceChecklist from "./components/ServiceChecklist";
 import PhotoScanFeature from "./components/PhotoScanFeature";
+import BarInventoryFeature from "./components/BarInventoryFeature";
 
 import CampaignSection from "./components/CampaignSection";
 import DashboardMockup from "./components/DashboardMockup";
@@ -85,6 +86,8 @@ export default function App() {
         <Features />
         
         <PhotoScanFeature />
+        
+        <BarInventoryFeature />
         
         <div className="bg-brand-text py-1 border-y-4 border-brand-primary/20">
           <HinglishMarquee />

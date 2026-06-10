@@ -152,11 +152,10 @@ export function Pricing() {
               </div>
               <p className="text-2xl font-black opacity-30 uppercase tracking-widest">Yearly License</p>
               <div className="flex items-baseline justify-end gap-2 mt-2">
-                <span className="text-6xl md:text-[100px] font-black leading-none">₹8999</span>
-                <span className="text-2xl font-black uppercase">/YR</span>
+                <span className="text-4xl md:text-[60px] font-black leading-none">Contact Us</span>
               </div>
-              <p className="text-brand-primary font-black mt-2 text-xl tracking-tighter italic">+ 18% GST APPLICABLE</p>
-              <p className="text-[10px] font-bold text-brand-text/40 mt-1 uppercase">NO Monthly charges • Renew at same rate</p>
+              <p className="text-brand-primary font-black mt-2 text-xl tracking-tighter italic">FOR PRICING INFORMATION</p>
+              <p className="text-[10px] font-bold text-brand-text/40 mt-1 uppercase">Custom quotes based on your needs</p>
             </motion.div>
 
             <motion.button

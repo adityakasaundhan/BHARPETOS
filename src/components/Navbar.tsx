@@ -34,7 +34,6 @@ export default function Navbar() {
   // Calculate approximate monthly profit leakage savings (5% average manual bill leakage/inventory waste)
   const monthlySavings = Math.round(dailyOrders * avgTicket * 0.045 * 30);
   const annualSavings = Math.round(monthlySavings * 12);
-  const paysBackInDays = Math.round((8999 / annualSavings) * 365);
 
   const triggerMockKOT = () => {
     const dishes = [
@@ -191,7 +190,7 @@ export default function Navbar() {
                     </div>
 
                     <div className="text-[10px] font-bold text-center text-[#183656] bg-brand-energy/20 px-2 py-1 border border-brand-energy/40 rounded">
-                      🎉 Licence pays for itself in just <span className="font-black underline">{paysBackInDays} days</span>!
+                      🎉 Start saving money and stopping leakage today!
                     </div>
                   </motion.div>
                 )}
@@ -346,7 +345,7 @@ export default function Navbar() {
               </div>
 
               <div className="text-[9px] font-bold text-center text-[#183656] bg-brand-energy/25 py-1.5 border border-brand-energy/35 rounded uppercase">
-                🎉 Pays for license in <span className="font-black">{paysBackInDays} days</span>!
+                🎉 Stop leakage today!
               </div>
             </div>
 

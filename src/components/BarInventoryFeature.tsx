@@ -70,41 +70,44 @@ export default function BarInventoryFeature() {
             <p className="text-sm font-bold opacity-40 uppercase tracking-wider mb-8">Track stock levels, batches & ingredients</p>
             
             <div className="space-y-4 flex-1">
-              <div 
-                className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center text-left cursor-pointer transition-transform duration-300 hover:scale-[1.02]"
+              <motion.div 
+                whileHover={{ scale: 1.02 }}
+                className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center text-left cursor-pointer"
               >
                 <div>
-                  <p className="text-xs font-black uppercase opacity-40 mb-1"><span>Total Stock Value</span></p>
-                  <p className="text-2xl font-black text-brand-text"><span>₹2,19,500</span></p>
+                  <p className="text-xs font-black uppercase opacity-40 mb-1">Total Stock Value</p>
+                  <p className="text-2xl font-black text-brand-text">₹2,19,500</p>
                 </div>
                 <div className="w-12 h-12 bg-orange-50 text-orange-500 rounded-xl flex items-center justify-center shrink-0">
                    <DollarSign size={20} />
                 </div>
-              </div>
+              </motion.div>
               
-              <div 
-                className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center text-left cursor-pointer transition-transform duration-300 hover:scale-[1.02]"
+              <motion.div 
+                whileHover={{ scale: 1.02 }}
+                className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center text-left cursor-pointer"
               >
                 <div>
-                  <p className="text-xs font-black uppercase opacity-40 mb-1"><span>Bottles in Stock</span></p>
-                  <p className="text-2xl font-black tracking-tight"><span>783.2</span> <span className="text-xs">Btls</span></p>
+                  <p className="text-xs font-black uppercase opacity-40 mb-1">Bottles in Stock</p>
+                  <p className="text-2xl font-black tracking-tight">783.2 <span className="text-xs">Btls</span></p>
                 </div>
                 <div className="w-12 h-12 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center shrink-0">
                    <Box size={20} />
                 </div>
-              </div>
+              </motion.div>
 
-              <div 
-                className="bg-white p-5 rounded-2xl shadow-sm border border-red-100 flex justify-between items-center text-left cursor-pointer transition-transform duration-300 hover:scale-[1.02]"
+              <motion.div 
+                whileHover={{ scale: 1.02 }}
+                className="bg-white p-5 rounded-2xl shadow-sm border border-red-100 flex justify-between items-center text-left cursor-pointer"
               >
                 <div>
-                  <p className="text-xs font-black uppercase opacity-40 text-red-500 mb-1"><span>Critical Warnings</span></p>
-                  <p className="text-2xl font-black text-red-500 tracking-tight"><span>1</span> <span className="text-xs">Items Low</span></p>
+                  <p className="text-xs font-black uppercase opacity-40 text-red-500 mb-1">Critical Warnings</p>
+                  <p className="text-2xl font-black text-red-500 tracking-tight">1 <span className="text-xs">Items Low</span></p>
                 </div>
                 <div className="w-12 h-12 bg-red-50 text-red-500 rounded-xl flex items-center justify-center shrink-0">
                    <AlertTriangle size={20} />
                 </div>
-              </div>
+              </motion.div>
             </div>
             
             <button className="w-full mt-6 bg-[#ECA825] text-white py-4 rounded-xl font-black text-xs uppercase flex items-center justify-center gap-2 hover:bg-opacity-90 shadow-lg shadow-orange-500/20 cursor-pointer transition-all active:scale-95">
